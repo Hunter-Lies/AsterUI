@@ -1,0 +1,13 @@
+.deps/
+.vs/
+build/
+dist/
+cache/
+*.log
+*.user
+*.suo
+*.VC.db
+*.VC.opendb
+node_modules/
+coverage/
+artifacts/

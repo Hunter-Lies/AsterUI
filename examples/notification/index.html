@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AsterUI Notification</title>
+  <link rel="stylesheet" href="../_shared/base.css">
+  <style>
+    body {
+      display: grid;
+      place-items: start center;
+    }
+
+    .notice-anchor {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      padding-top: 6px;
+    }
+
+    .notice {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 8px 15px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      border-radius: 0 0 16px 16px;
+      background: rgba(10, 12, 14, 0.94);
+      color: var(--text);
+      box-shadow: 0 9px 24px rgba(0, 0, 0, 0.38);
+    }
+
+    .shield {
+      width: 16px;
+      height: 18px;
+      background: var(--accent);
+      clip-path: polygon(50% 0, 94% 16%, 86% 72%, 50% 100%, 14% 72%, 6% 16%);
+    }
+
+    .label {
+      color: var(--muted);
+      font: 700 9px/1 Consolas, monospace;
+    }
+
+    .message {
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .count {
+      color: var(--accent);
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .preview {
+      position: fixed;
+      left: 50%;
+      bottom: 22px;
+      padding: 8px 11px;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="notice-anchor">
+    <div class="notice">
+      <span class="shield" aria-hidden="true"></span>
+      <span class="label">ASTERUI</span>
+      <span class="message">Processed <strong class="count" id="count">1</strong> events</span>
+    </div>
+  </div>
+  <button class="preview" id="increment" type="button">Increment count</button>
+  <script src="../../sdk/js/mock.js"></script>
+  <script src="../_shared/bridge.js"></script>
+  <script>
+    (function () {
+      var count = 1;
+      var value = document.getElementById("count");
+      AsterDemo.on("notification:count", function (payload) {
+        count = Number(payload && payload.value || count);
+        value.textContent = String(count);
+      });
+      document.getElementById("increment").addEventListener("click", function () {
+        count += 1;
+        value.textContent = String(count);
+        AsterDemo.emit("notification:increment", { value: count });
+      });
+    })();
+  </script>
+</body>
+</html>

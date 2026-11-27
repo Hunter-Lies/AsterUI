@@ -1,0 +1,13 @@
+{
+  "name": "asterui-vite-starter",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.config.js",
+    "build": "vite build --config vite.config.js"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0"
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AsterUI Hello Overlay</title>
+  <link rel="stylesheet" href="../_shared/base.css">
+  <style>
+    body {
+      display: grid;
+      place-items: center;
+    }
+
+    .card {
+      width: min(430px, calc(100vw - 48px));
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .mark {
+      width: 32px;
+      height: 32px;
+      border: 1px solid rgba(125, 189, 163, 0.6);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 50% 50%, var(--accent) 0 3px, transparent 4px),
+        linear-gradient(135deg, rgba(125, 189, 163, 0.24), transparent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 650;
+    }
+
+    .header span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .body {
+      padding: 20px;
+    }
+
+    .metric {
+      color: var(--accent);
+      font-size: 34px;
+      font-variant-numeric: tabular-nums;
+      font-weight: 650;
+    }
+
+    .body p {
+      margin: 6px 0 18px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .body button {
+      padding: 8px 12px;
+    }
+  </style>
+</head>
+<body>
+  <article class="card">
+    <header class="header">
+      <span class="mark" aria-hidden="true"></span>
+      <div>
+        <h1>AsterUI Bridge</h1>
+        <span>minimal overlay example</span>
+      </div>
+    </header>
+    <div class="body">
+      <div class="metric" id="value">0</div>
+      <p>This value is updated by the host through the injected event bridge.</p>
+      <button id="send" type="button">Send test event</button>
+    </div>
+  </article>
+  <span class="bridge-state" id="bridge">waiting for bridge</span>
+  <script src="../../sdk/js/mock.js"></script>
+  <script src="../_shared/bridge.js"></script>
+  <script>
+    (function () {
+      var value = document.getElementById("value");
+      var bridge = document.getElementById("bridge");
+
+      AsterDemo.onReady(function () {
+        bridge.textContent = "bridge ready";
+        bridge.classList.add("ready");
+        AsterDemo.on("demo:value", function (payload) {
+          value.textContent = String(payload && payload.value || 0);
+        });
+      });
+
+      document.getElementById("send").addEventListener("click", function () {
+        AsterDemo.emit("demo:click", { at: Date.now() });
+      });
+    })();
+  </script>
+</body>
+</html>

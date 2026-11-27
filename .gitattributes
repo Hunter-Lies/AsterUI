@@ -1,0 +1,12 @@
+* text=auto
+*.png binary
+*.jpg binary
+*.webp binary
+*.ttf binary
+*.woff2 binary
+*.dll binary
+*.exe binary
+*.asi binary
+*.lib binary
+*.pak binary
+*.bin binary

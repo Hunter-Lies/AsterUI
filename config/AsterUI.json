@@ -1,0 +1,10 @@
+{
+  "maxFps": 60,
+  "uiGpu": false,
+  "maxBrowsers": 8,
+  "logLevel": "info",
+  "development": {
+    "enabled": false,
+    "allowedOrigins": []
+  }
+}

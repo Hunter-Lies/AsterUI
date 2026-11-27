@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AsterUI Demo</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: rgba(8, 10, 12, 0.95);
+      --line: rgba(255, 255, 255, 0.105);
+      --text: #f2f4f5;
+      --muted: #8d98a0;
+      --accent: #6fae94;
+      --warning: #d7a869;
+      font-family: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI",
+        "Microsoft YaHei", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      letter-spacing: 0;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: rgba(0, 0, 0, 0.46);
+      color: var(--text);
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .shell {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      width: min(900px, calc(100vw - 56px));
+      height: min(590px, calc(100vh - 48px));
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--bg);
+      box-shadow: 0 24px 90px rgba(0, 0, 0, 0.54);
+      transform: translate(-50%, -50%);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .identity,
+    .metrics {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .mark {
+      display: grid;
+      place-items: center;
+      width: 34px;
+      height: 34px;
+      border: 1px solid rgba(111, 174, 148, 0.48);
+      border-radius: 50%;
+      color: var(--accent);
+      font: 700 12px/1 Consolas, monospace;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 17px;
+      font-weight: 650;
+    }
+
+    header small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .metric {
+      min-width: 62px;
+      padding: 7px 9px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.025);
+    }
+
+    .metric span {
+      display: block;
+      color: var(--muted);
+      font: 700 8px/1 Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      font-weight: 650;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .key {
+      padding: 6px 9px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      color: var(--muted);
+      font: 700 10px/1 Consolas, monospace;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 178px minmax(0, 1fr);
+      min-height: 0;
+    }
+
+    nav {
+      padding: 14px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.017);
+    }
+
+    .nav-label {
+      margin: 4px 8px 10px;
+      color: var(--muted);
+      font: 700 8px/1 Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .nav-item {
+      width: 100%;
+      margin-bottom: 5px;
+      padding: 9px 10px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .nav-item.active {
+      border-color: rgba(111, 174, 148, 0.24);
+      background: rgba(111, 174, 148, 0.09);
+      color: var(--text);
+    }
+
+    main {
+      min-width: 0;
+      min-height: 0;
+      padding: 20px;
+    }
+
+    .view {
+      display: none;
+      height: 100%;
+      min-height: 0;
+    }
+
+    .view.active {
+      display: block;
+    }
+
+    h2 {
+      margin: 0 0 6px;
+      font-size: 21px;
+      font-weight: 650;
+    }
+
+    .lead {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .rows {
+      display: grid;
+      gap: 8px;
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 12px 13px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.024);
+    }
+
+    .row strong {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .row small {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .switch {
+      position: relative;
+      flex: none;
+      width: 42px;
+      height: 23px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.07);
+      cursor: pointer;
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: transform 180ms ease, background 180ms ease;
+    }
+
+    .switch[aria-checked="true"] {
+      border-color: rgba(111, 174, 148, 0.42);
+      background: rgba(111, 174, 148, 0.17);
+    }
+
+    .switch[aria-checked="true"]::after {
+      background: var(--accent);
+      transform: translateX(19px);
+    }
+
+    .action,
+    .primary {
+      flex: none;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .action:hover,
+    .primary:hover,
+    .close:hover {
+      border-color: rgba(255, 255, 255, 0.24);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .primary {
+      border-color: rgba(111, 174, 148, 0.35);
+      background: rgba(111, 174, 148, 0.13);
+    }
+
+    button:disabled {
+      opacity: 0.42;
+      cursor: default;
+    }
+
+    .waypoint-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 220px;
+      gap: 12px;
+      height: calc(100% - 64px);
+    }
+
+    .waypoint-main,
+    .waypoint-side {
+      min-height: 0;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .waypoint-main {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 26px;
+    }
+
+    .waypoint-icon {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 17px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--warning);
+      font-size: 22px;
+    }
+
+    .waypoint-icon::after {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border: 1px solid currentColor;
+      border-radius: 50%;
+      opacity: 0.42;
+    }
+
+    .waypoint-state {
+      margin: 0 0 7px;
+      font-size: 21px;
+      font-weight: 650;
+    }
+
+    .waypoint-copy {
+      max-width: 460px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.65;
+    }
+
+    .waypoint-card.active .waypoint-icon {
+      color: var(--accent);
+      border-color: rgba(111, 174, 148, 0.38);
+      background: rgba(111, 174, 148, 0.09);
+    }
+
+    .waypoint-side {
+      display: flex;
+      flex-direction: column;
+      padding: 14px;
+    }
+
+    .side-label {
+      color: var(--muted);
+      font: 700 8px/1 Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .coordinates {
+      margin: 12px 0;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 5px;
+      color: var(--text);
+      font: 11px/1.7 Consolas, monospace;
+    }
+
+    .waypoint-actions {
+      display: grid;
+      gap: 7px;
+      margin-top: auto;
+    }
+
+    .steps {
+      margin: 14px 0;
+      padding: 0;
+      list-style: none;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    .steps li {
+      display: grid;
+      grid-template-columns: 18px 1fr;
+      gap: 7px;
+      margin-bottom: 6px;
+    }
+
+    .steps b {
+      display: grid;
+      place-items: center;
+      width: 18px;
+      height: 18px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      color: var(--accent);
+      font: 700 8px/1 Consolas, monospace;
+    }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 11px 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .close {
+      padding: 7px 10px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    @media (max-width: 760px) {
+      .metrics {
+        display: none;
+      }
+
+      .layout {
+        grid-template-columns: 142px minmax(0, 1fr);
+      }
+
+      .waypoint-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .waypoint-side {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="shell">
+    <header>
+      <div class="identity">
+        <span class="mark">AU</span>
+        <div>
+          <h1>AsterUI Demo</h1>
+          <small>ASI plugin + live HTML interface</small>
+        </div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><span>Health</span><strong id="health">--</strong></div>
+        <div class="metric"><span>Armor</span><strong id="armor">--</strong></div>
+        <div class="metric"><span>Wanted</span><strong id="wanted">--</strong></div>
+        <span class="key">F5</span>
+      </div>
+    </header>
+
+    <div class="layout">
+      <nav>
+        <div class="nav-label">Demo pages</div>
+        <button class="nav-item active" type="button" data-view="player">玩家功能</button>
+        <button class="nav-item" type="button" data-view="navigation">路点传送</button>
+      </nav>
+
+      <main>
+        <section class="view active" id="view-player">
+          <h2>玩家功能</h2>
+          <p class="lead">从 HTML 页面调用游戏原生功能，插件负责状态同步和执行。</p>
+          <div class="rows">
+            <div class="row">
+              <span>
+                <strong>无敌模式</strong>
+                <small>实时切换玩家无敌状态。</small>
+              </span>
+              <button class="switch" id="invincible" type="button" role="switch" aria-checked="false" aria-label="无敌模式"></button>
+            </div>
+            <div class="row">
+              <span>
+                <strong>恢复状态</strong>
+                <small>恢复生命值和满护甲。</small>
+              </span>
+              <button class="action" id="heal" type="button">恢复</button>
+            </div>
+            <div class="row">
+              <span>
+                <strong>清除通缉</strong>
+                <small>立即清除当前通缉星级。</small>
+              </span>
+              <button class="action" id="clear-wanted" type="button">清除</button>
+            </div>
+            <div class="row">
+              <span>
+                <strong>维修当前车辆</strong>
+                <small>修复车身并清除车辆污渍。</small>
+              </span>
+              <button class="action" id="repair" type="button">维修</button>
+            </div>
+          </div>
+        </section>
+
+        <section class="view" id="view-navigation">
+          <h2>路点传送</h2>
+          <p class="lead">读取 GTA V 地图中设置的导航点，不经过网页地图。</p>
+          <div class="waypoint-layout">
+            <div class="waypoint-main" id="waypoint-card">
+              <span class="waypoint-icon" aria-hidden="true">◎</span>
+              <h3 class="waypoint-state" id="waypoint-state">未设置导航点</h3>
+              <p class="waypoint-copy" id="waypoint-copy">
+                关闭界面后，在 GTA V 自己的地图上用右键设置一个导航点，再按 F5 返回这里。
+              </p>
+            </div>
+            <aside class="waypoint-side">
+              <span class="side-label">Active Waypoint</span>
+              <div class="coordinates" id="waypoint-coordinates">X --<br>Y --</div>
+              <ol class="steps">
+                <li><b>1</b><span>打开 GTA V 地图并设置路点</span></li>
+                <li><b>2</b><span>按 F5 返回 AsterUI Demo</span></li>
+                <li><b>3</b><span>点击传送到导航点</span></li>
+              </ol>
+              <div class="waypoint-actions">
+                <button class="action" id="refresh-waypoint" type="button">刷新导航点</button>
+                <button class="primary" id="teleport-waypoint" type="button" disabled>传送到导航点</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer>
+      <span class="status" id="status">Waiting for plugin state</span>
+      <button class="close" id="close" type="button">关闭界面</button>
+    </footer>
+  </section>
+
+  <script src="../../sdk/js/mock.js"></script>
+  <script>
+    (function () {
+      "use strict";
+
+      var status = document.getElementById("status");
+      var invincible = document.getElementById("invincible");
+      var health = document.getElementById("health");
+      var armor = document.getElementById("armor");
+      var wanted = document.getElementById("wanted");
+      var waypointCard = document.getElementById("waypoint-card");
+      var waypointState = document.getElementById("waypoint-state");
+      var waypointCopy = document.getElementById("waypoint-copy");
+      var waypointCoordinates = document.getElementById("waypoint-coordinates");
+      var teleportWaypoint = document.getElementById("teleport-waypoint");
+      var waypointActive = false;
+
+      function emit(name, payload) {
+        if (window.asterui) {
+          window.asterui.emit(name, payload);
+        }
+      }
+
+      function setInvincible(value) {
+        invincible.setAttribute("aria-checked", value ? "true" : "false");
+      }
+
+      function setWaypoint(active, x, y) {
+        waypointActive = Boolean(active);
+        waypointCard.classList.toggle("active", waypointActive);
+        waypointState.textContent = waypointActive ? "已检测到导航点" : "未设置导航点";
+        waypointCopy.textContent = waypointActive
+          ? "导航点来自 GTA V 游戏地图。可以直接传送到该坐标。"
+          : "关闭界面后，在 GTA V 自己的地图上用右键设置一个导航点，再按 F5 返回这里。";
+        waypointCoordinates.innerHTML = waypointActive
+          ? "X " + Number(x).toFixed(1) + "<br>Y " + Number(y).toFixed(1)
+          : "X --<br>Y --";
+        teleportWaypoint.disabled = !waypointActive;
+      }
+
+      document.querySelectorAll(".nav-item").forEach(function (item) {
+        item.addEventListener("click", function () {
+          document.querySelectorAll(".nav-item").forEach(function (button) {
+            button.classList.toggle("active", button === item);
+          });
+          document.querySelectorAll(".view").forEach(function (view) {
+            view.classList.toggle(
+              "active",
+              view.id === "view-" + item.dataset.view);
+          });
+        });
+      });
+
+      invincible.addEventListener("click", function () {
+        var next = invincible.getAttribute("aria-checked") !== "true";
+        setInvincible(next);
+        emit("demo:command", { action: "set_invincible", value: next });
+      });
+      document.getElementById("heal").addEventListener("click", function () {
+        emit("demo:command", { action: "heal" });
+      });
+      document.getElementById("clear-wanted").addEventListener("click", function () {
+        emit("demo:command", { action: "clear_wanted" });
+      });
+      document.getElementById("repair").addEventListener("click", function () {
+        emit("demo:command", { action: "repair_vehicle" });
+      });
+      document.getElementById("refresh-waypoint").addEventListener("click", function () {
+        emit("demo:command", { action: "refresh_waypoint" });
+      });
+      teleportWaypoint.addEventListener("click", function () {
+        if (waypointActive) {
+          emit("demo:command", { action: "teleport_waypoint" });
+        }
+      });
+      document.getElementById("close").addEventListener("click", function () {
+        emit("demo:command", { action: "close" });
+      });
+      window.addEventListener("keydown", function (event) {
+        if (event.key === "Escape") {
+          emit("demo:command", { action: "close" });
+        }
+      });
+      window.addEventListener("asterui:ready", function () {
+        window.asterui.on("demo:state", function (payload) {
+          payload = payload || {};
+          setInvincible(Boolean(payload.invincible));
+          health.textContent = payload.health === undefined ? "--" : String(payload.health);
+          armor.textContent = payload.armor === undefined ? "--" : String(payload.armor);
+          wanted.textContent = payload.wanted === undefined ? "--" : String(payload.wanted);
+          setWaypoint(payload.waypointActive, payload.waypointX, payload.waypointY);
+          status.textContent = String(
+            payload.message || (window.asterui.__mock ? "Browser preview" : "Ready"));
+        });
+        emit("demo:command", { action: "request_state" });
+      });
+    })();
+  </script>
+</body>
+</html>

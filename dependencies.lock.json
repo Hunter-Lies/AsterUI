@@ -1,0 +1,17 @@
+{
+  "cef": {
+    "version": "150.0.22+gc1a097e+chromium-150.0.7871.256",
+    "archive": "cef_binary_150.0.22%2Bgc1a097e%2Bchromium-150.0.7871.256_windows64.tar.bz2",
+    "url": "https://cef-builds.spotifycdn.com/cef_binary_150.0.22%2Bgc1a097e%2Bchromium-150.0.7871.256_windows64.tar.bz2",
+    "sha256": "A6AFBA8EE3D1CC9EF64318A734DFEB5CEAFC0384A46DF2AF37B857E7D76C0544"
+  },
+  "scripthookv": {
+    "distribution": "user-supplied",
+    "url": "http://www.dev-c.com/gtav/scripthookv/",
+    "redistributable": false
+  },
+  "nlohmann_json": {
+    "version": "3.11.3",
+    "license": "MIT"
+  }
+}
