@@ -11,3 +11,5 @@ cache/
 node_modules/
 coverage/
 artifacts/
+docs/.vitepress/cache/
+docs/.vitepress/dist/

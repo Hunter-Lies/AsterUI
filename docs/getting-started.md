@@ -1,34 +1,26 @@
-# Getting Started with AsterUI Pages
+# AsterUI 页面快速开始
 
-[中文](zh-CN/getting-started.md) | [English](getting-started.md)
+[中文](getting-started.md) | [English](en/getting-started.md)
 
-This guide assumes you are making a UI page, not an ASI/RPH plugin.
+本教程面向 UI 作者，不需要 Visual Studio 或 ScriptHookV SDK。
 
-## Tools
+## 创建页面
 
-- A text editor or IDE.
-- A normal browser for preview.
-- Optional: Node.js for the Vite example.
-
-You do not need Visual Studio or the ScriptHookV SDK to author a UI page.
-
-## Create a page
-
-Copy an example:
+复制：
 
 ```text
 examples/hello-overlay
 ```
 
-Place your copy under:
+放到：
 
 ```text
 AsterUI/ui/my-ui/
 ```
 
-The entry file must be `index.html`.
+入口必须是 `index.html`。
 
-## First script
+## 第一条桥接脚本
 
 ```js
 window.addEventListener("asterui:ready", () => {
@@ -40,28 +32,17 @@ window.addEventListener("asterui:ready", () => {
 });
 ```
 
-The external consumer receives `myui:request` and may respond with:
-
-```js
-// Conceptual consumer-side event sent to the page.
-window.asterui.on("myui:state", (state) => {});
-```
-
-In the page, the event arrives through the registered callback above.
-
-## Browser preview
-
-Include the mock before your app script:
+## 浏览器预览
 
 ```html
 <script src="../../sdk/js/mock.js"></script>
 <script src="app.js"></script>
 ```
 
-The mock implements `on`, `off`, and `emit` and dispatches `asterui:ready`.
+Mock 实现 `on`、`off`、`emit`，并触发 `asterui:ready`。
 
-## Next
+## 下一步
 
-- Communication details: `js-api.md`
-- Full authoring guide: `ui-guide.md`
-- Preview and HMR: `development.md`
+- 通讯接口：`js-api.md`
+- 完整教程：`ui-guide.md`
+- 预览和热重载：`development.md`

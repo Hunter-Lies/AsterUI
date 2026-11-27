@@ -1,49 +1,38 @@
-# UI Architecture and Scope
+# UI 架构与范围
 
-[中文](zh-CN/architecture.md) | [English](architecture.md)
+[中文](architecture.md) | [English](en/architecture.md)
 
-## What AsterUI provides
+## 架构
 
 ```text
-HTML/CSS/JavaScript page
+HTML/CSS/JavaScript 页面
         |
         v
-injected window.asterui bridge
+注入的 window.asterui
         |
         v
-AsterUI host/runtime boundary
+AsterUI Host / 运行时边界
         |
         v
-external UI consumer
+外部 UI 消费方
 ```
 
-AsterUI owns the page lifecycle, browser rendering, input routing, resource
-policy, and JSON event transport.
+AsterUI 负责页面生命周期、浏览器渲染、输入路由、资源策略和 JSON 通讯。
 
-## What AsterUI does not define
+## 外部消费方负责
 
-- what a page means
-- when a consumer should open it
-- which hotkey opens it
-- what a native action event does
-- how application data is persisted
+- 什么时候打开页面
+- 热键
+- 页面尺寸、焦点、层级
+- 事件对应的游戏功能
+- 数据持久化
 
-Those are consumer-side responsibilities and are outside the UI authoring guide.
+这些内容不属于 AsterUI UI 开发教程。
 
-## Page model
+## 页面模型
 
-Each page is a separate browser surface. A consumer chooses its URL, size,
-visibility, focus, layer, and opacity through the integration layer.
-
-UI authors only need to know:
-
-- the page runs at the assigned browser dimensions
-- `window.asterui` becomes available before `asterui:ready`
-- events cross the boundary as JSON
-- production resources are local-only
-
-## Resource policy
-
-Production pages can load files from the configured UI root. Remote scripts,
-images, `fetch` calls, and WebSockets are blocked. Development mode permits only
-explicit exact-loopback origins for local tooling.
+- 每个页面是独立的浏览器 surface。
+- 页面收到分配好的尺寸。
+- `asterui:ready` 触发后桥接可用。
+- 页面和消费方之间只传 JSON。
+- 生产环境只允许本地包内资源。

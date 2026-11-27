@@ -1,28 +1,22 @@
-# AsterUI UI Guide
+# AsterUI UI 开发教程
 
-[中文](zh-CN/ui-guide.md) | [English](ui-guide.md)
+[中文](ui-guide.md) | [English](en/ui-guide.md)
 
-This guide covers only how to build a UI page for AsterUI.
+本教程只说明如何为 AsterUI 开发页面，不包含插件、Native 或钩子开发。
 
-## 1. Mental model
+## 1. 理解模型
 
-AsterUI is a browser runtime embedded in GTA V. The page is normal HTML, CSS,
-and JavaScript. AsterUI adds one global object:
+AsterUI 为页面提供一个全局桥接对象：
 
 ```js
 window.asterui
 ```
 
-The page uses `emit` to send JSON events to the external consumer and `on` to
-receive JSON state. The consumer is responsible for native actions and business
-logic.
+页面通过 `emit` 发送 JSON 事件，通过 `on` 接收 JSON 状态。页面不直接执行游戏功能。事件由外部 UI 消费方接收和处理。
 
-Think of it like RageUI's responsibilities: the framework provides the UI layer,
-not the plugin's game logic.
+和 RageUI 的角色类似：AsterUI 负责 UI 层，消费方负责业务逻辑。
 
-## 2. Page structure
-
-Recommended page layout:
+## 2. 页面结构
 
 ```text
 AsterUI/ui/my-ui/
@@ -32,7 +26,7 @@ AsterUI/ui/my-ui/
   images/
 ```
 
-Use relative paths for assets:
+资源必须使用相对路径：
 
 ```html
 <link rel="stylesheet" href="style.css">
@@ -40,21 +34,15 @@ Use relative paths for assets:
 <script src="app.js"></script>
 ```
 
-Do not use CDN or remote URLs. Production resource loading is local-only.
+生产环境禁止 CDN、远程字体、远程图片、外部 `fetch` 和外部 WebSocket。
 
-## 3. Lifecycle
+## 3. 生命周期
 
-The bridge may not exist when the HTML first starts executing. Always wait for
-`asterui:ready`.
+HTML 刚开始执行时桥接可能尚未安装，必须等待 `asterui:ready`：
 
 ```js
 window.addEventListener("asterui:ready", () => {
-  console.log("AsterUI bridge ready");
-
-  window.asterui.on("myui:state", (state) => {
-    render(state);
-  });
-
+  window.asterui.on("myui:state", render);
   window.asterui.emit("myui:ready", {
     page: "my-ui",
     version: 1
@@ -62,27 +50,26 @@ window.addEventListener("asterui:ready", () => {
 });
 ```
 
-Recommended lifecycle events:
+推荐事件：
 
-- `myui:ready`: UI mounted and ready for initial state.
-- `myui:request`: UI requests a refresh.
-- `myui:action`: UI sends a user action.
-- `myui:state`: consumer sends state back to the UI.
+- `myui:ready`：页面已准备好。
+- `myui:request`：请求最新状态。
+- `myui:action`：发送用户操作。
+- `myui:state`：消费方回传页面状态。
 
-## 4. Event communication
+## 4. 通讯
 
-Subscribe:
+订阅：
 
 ```js
 const unsubscribe = window.asterui.on("myui:state", (payload) => {
-  // payload is already parsed JSON
+  console.log(payload);
 });
 
 unsubscribe();
-// or: window.asterui.off("myui:state", callback);
 ```
 
-Send:
+发送：
 
 ```js
 window.asterui.emit("myui:action", {
@@ -91,15 +78,15 @@ window.asterui.emit("myui:action", {
 });
 ```
 
-Rules:
+规则：
 
-- Event names match `^[A-Za-z0-9_.:\-]{1,64}$`.
-- Payloads must be JSON serializable.
-- Use a page-specific namespace such as `inventory:`, `fuel:`, or `myui:`.
-- Keep payloads small; this is not a file-transfer channel.
-- Do not assume native behavior from an event name. AsterUI only transports it.
+- 事件名匹配 `^[A-Za-z0-9_.:\-]{1,64}$`。
+- 数据必须可以 JSON 序列化。
+- 使用页面自己的命名空间。
+- 不要传递 DOM、函数、Blob 或循环对象。
+- 事件名称本身不定义游戏功能，功能含义由外部消费方决定。
 
-Recommended request/response pattern:
+推荐请求/响应模式：
 
 ```js
 window.asterui.emit("inventory:request", {});
@@ -107,38 +94,31 @@ window.asterui.on("inventory:state", renderInventory);
 window.asterui.emit("inventory:use", { id: 12 });
 ```
 
-## 5. Rendering guidelines
+## 5. 页面设计
 
-- The page runs in a transparent full-window browser.
-- Use transparent backgrounds when drawing an overlay.
-- Keep controls inside the viewport at 1280×720, 1920×1080, and 2560×1440.
-- Use `rem`, `clamp`, or layout-relative sizing for responsive panels.
-- Do not scale font sizes directly from viewport width.
-- Provide visible hover, focus, active, and disabled states.
-- Support mouse and keyboard navigation where appropriate.
-- Do not rely on a remote font or icon CDN.
+- 页面运行在透明全屏浏览器中。
+- 1280×720、1920×1080、2560×1440 下都必须可用。
+- 使用相对布局、`rem` 或 `clamp`。
+- 给按钮提供 hover、focus、active、disabled 状态。
+- 支持鼠标和键盘操作。
+- 不依赖远程字体或图标 CDN。
 
-## 6. Browser preview
-
-Include the mock before your application script:
+## 6. 浏览器预览
 
 ```html
 <script src="../../sdk/js/mock.js"></script>
 <script src="app.js"></script>
 ```
 
-The mock provides the same `on`, `off`, and `emit` methods. Outgoing messages are
-recorded:
+Mock 提供相同的 `on`、`off`、`emit`，并触发 `asterui:ready`。
+
+查看已发送事件：
 
 ```js
 window.asterui.__mock.sent()
 ```
 
-Use the mock to develop layout and interaction without starting GTA V.
-
-## 7. Localhost hot reload
-
-Use `examples/vite-starter` as a starting point:
+## 7. Vite 热重载
 
 ```powershell
 cd examples/vite-starter
@@ -146,7 +126,7 @@ npm install
 npm run dev
 ```
 
-Enable the exact loopback origin in the installed `AsterUI.json`:
+在游戏安装目录的 `AsterUI/AsterUI.json` 中启用精确来源：
 
 ```json
 {
@@ -157,46 +137,42 @@ Enable the exact loopback origin in the installed `AsterUI.json`:
 }
 ```
 
-The matching WebSocket origin is allowed for HMR. Keep development mode
-disabled in released packages.
+只有精确配置的 loopback 来源和对应 HMR WebSocket 会被允许。发布前关闭 development。
 
-## 8. Debugging
+## 8. 调试
 
-- If `window.asterui` is missing, wait for `asterui:ready`.
-- If preview works but the game page is blank, check asset paths and the host
-  log for blocked resources.
-- Use `console.log` and the `AsterUI.Host.log` console forwarding.
-- Test with the same browser dimensions used by the external consumer.
-- Do not add network dependencies; production mode blocks them.
+- `window.asterui` 不存在：等待 `asterui:ready`。
+- Chrome 正常、游戏空白：检查相对路径和 `AsterUI.Host.log`。
+- 收不到状态：确认请求事件、响应事件和名称完全一致。
+- 页面接收不到点击：检查页面是否获得焦点，以及控件是否在可视区域内。
 
-## 9. Packaging a UI
+## 9. 发布页面
 
-Ship the page directory under:
+页面目录放在：
 
 ```text
 AsterUI/ui/<page-name>/
 ```
 
-Include all CSS, JavaScript, images, and fonts as relative local assets. Avoid
-absolute machine paths and development-only localhost URLs.
+必须包含全部本地资源，不包含 localhost 地址、机器绝对路径、缓存和日志。
 
-The external consumer chooses the page URL. AsterUI does not automatically
-discover pages or define a menu entry.
+AsterUI 不自动发现页面，也不定义菜单入口。页面何时加载由外部消费方决定。
 
-## 10. Scope boundary
+## 10. 范围边界
 
-Outside AsterUI UI documentation:
+AsterUI UI 教程包含：
 
-- creating or registering ASI/RPH plugins
-- native GTA V calls
-- hotkey registration
-- page launch policy
-- consumer-side persistence and state storage
+- HTML/CSS/JavaScript
+- 页面生命周期
+- `on/off/emit` 通讯
+- 资源路径
+- 预览、热重载和调试
+- 渲染、输入和资源策略
 
-Inside AsterUI UI documentation:
+不包含：
 
-- HTML/CSS/JavaScript authoring
-- bridge lifecycle and communication
-- browser preview and HMR
-- asset layout and resource policy
-- rendering, input, and debugging behavior
+- ASI/RPH 插件创建
+- Native 调用
+- 热键注册
+- 页面启动策略
+- 消费方业务逻辑

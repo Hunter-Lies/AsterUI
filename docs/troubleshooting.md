@@ -1,10 +1,10 @@
-# UI Troubleshooting
+# AsterUI UI 故障排查
 
-[中文](zh-CN/troubleshooting.md) | [English](troubleshooting.md)
+[中文](troubleshooting.md) | [English](en/troubleshooting.md)
 
-## `window.asterui` is missing
+## 没有 `window.asterui`
 
-Wait for the bridge:
+等待：
 
 ```js
 window.addEventListener("asterui:ready", () => {
@@ -12,34 +12,31 @@ window.addEventListener("asterui:ready", () => {
 });
 ```
 
-The bridge is not available for direct calls during initial HTML parsing.
+## Chrome 可打开，AsterUI 无法加载
 
-## Page works in Chrome but not in AsterUI
+- 检查资源是否全部使用相对路径。
+- 入口必须是 `index.html`。
+- 页面必须在 `AsterUI/ui` 下。
+- 删除 CDN、远程字体、远程图片和外部 `fetch`。
+- 查看 `AsterUI.Host.log` 是否记录了资源拦截。
 
-- Check all asset paths are relative and local.
-- Confirm the entry file is `index.html`.
-- Confirm the page directory is under `AsterUI/ui`.
-- Remove CDN, remote font, remote image, and external `fetch` dependencies.
-- Inspect `AsterUI.Host.log` for blocked resource messages.
+## localhost 页面不加载
 
-## Localhost page does not load
+- `AsterUI.json` 必须启用 development。
+- 来源必须包含准确端口。
+- 只允许 loopback 地址。
+- 只能使用 HTTP/HTTPS 开发地址。
 
-- Development mode must be enabled in the installed `AsterUI.json`.
-- Add the exact origin, including the port.
-- Only loopback hosts are accepted.
-- The page URL must use `http://` or `https://`, not a local file path.
+## 页面收不到状态
 
-## UI receives no state
+- 在 `asterui:ready` 后发送请求事件。
+- 请求和响应事件名必须完全一致。
+- 数据必须可以 JSON 序列化。
+- 响应由外部消费方决定，AsterUI 只负责传递。
 
-- Emit a request event after `asterui:ready`.
-- Confirm both sides use exactly the same event name.
-- Check the payload is valid JSON.
-- The external consumer, not AsterUI, defines what the event means and whether
-  it sends a response.
+## 布局或输入问题
 
-## Layout or input problems
-
-- Test at the browser dimensions supplied by the consumer.
-- Keep interactive controls inside the viewport.
-- Provide hover, focus, active, and disabled states.
-- Use pointer and keyboard events rather than desktop-only assumptions.
+- 使用消费方实际提供的尺寸测试。
+- 控件必须位于视口内。
+- 提供 hover、focus、active、disabled 状态。
+- 不要假设只有鼠标输入。

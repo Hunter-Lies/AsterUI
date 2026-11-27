@@ -1,20 +1,16 @@
-# UI JavaScript Bridge
+# AsterUI JavaScript 通讯接口
 
-[中文](zh-CN/js-api.md) | [English](js-api.md)
+[中文](js-api.md) | [English](en/js-api.md)
 
-AsterUI injects one global bridge into each page.
-
-## Ready event
-
-Do not call the bridge during initial HTML parsing. Wait for:
+## 就绪事件
 
 ```js
 window.addEventListener("asterui:ready", () => {
-  // safe to use window.asterui
+  // window.asterui 已可用
 });
 ```
 
-## Methods
+## 方法
 
 ```ts
 on(name: string, callback: (payload: unknown) => void): () => void
@@ -22,72 +18,51 @@ off(name: string, callback?: (payload: unknown) => void): boolean
 emit(name: string, payload?: unknown): void
 ```
 
-## Subscribe
+## 订阅
 
 ```js
 const remove = window.asterui.on("demo:state", (payload) => {
-  console.log(payload.health);
+  console.log(payload);
 });
 
 remove();
 ```
 
-The returned function is equivalent to `off(name, callback)`.
-
-## Send
+## 发送
 
 ```js
 window.asterui.emit("demo:command", {
-  action: "set_invincible",
-  value: true
+  action: "refresh"
 });
 ```
 
-`emit` serializes the payload as JSON and sends it to the external consumer.
-
-## Event names
-
-Allowed pattern:
+## 事件名
 
 ```text
 ^[A-Za-z0-9_.:\-]{1,64}$
 ```
 
-Recommended pattern:
+推荐格式：
 
 ```text
-<page-namespace>:<action>
+<页面命名空间>:<动作>
 ```
 
-Examples:
+例如：
 
 - `inventory:request`
 - `inventory:state`
-- `fuel:set`
+- `inventory:use`
 - `notification:show`
 
-## Payload rules
+## 数据规则
 
-- Must be JSON serializable.
-- Prefer objects with explicit keys.
-- Keep messages small.
-- Do not send DOM nodes, functions, Blobs, or cyclic objects.
-- The bridge does not interpret application fields such as `action`; their
-  meaning belongs to the external consumer.
+- 必须可以 JSON 序列化。
+- 保持数据体积较小。
+- 不建议发送无结构字符串。
+- AsterUI 不解释 `action` 等业务字段。
+- 业务含义由外部消费方决定。
 
-## Lifecycle pattern
+## 兼容别名
 
-```js
-window.addEventListener("asterui:ready", () => {
-  window.asterui.on("myui:state", render);
-  window.asterui.emit("myui:request", { page: "home" });
-});
-```
-
-The page asks for state. The consumer responds with an application event. The
-page renders the event payload.
-
-## Compatibility
-
-`window.gtanui` and `gtanui:ready` are legacy aliases. New UI code must use
-`window.asterui` and `asterui:ready`.
+`window.gtanui` 和 `gtanui:ready` 只用于兼容旧页面。新页面必须使用 `window.asterui` 和 `asterui:ready`。
