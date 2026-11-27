@@ -5,7 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-6fae94)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-6fae94)](https://hunter-lies.github.io/AsterUI/en/)
 
-A local HTML/CSS/JavaScript game UI runtime with responsibilities similar to RageUI: AsterUI owns page lifecycle, CEF rendering, input, and JSON messaging; an external consumer owns page launch policy and game actions.
+Local HTML/CSS/JavaScript UI runtime for **Grand Theft Auto V on Windows, Story Mode**. Responsibilities are similar to RageUI: AsterUI owns page lifecycle, CEF rendering, input, and JSON messaging; an external consumer owns page launch policy and game actions.
+
+AsterUI does not target FiveM, RedM, or GTA Online. A ScriptHookV-based external consumer is required at runtime. The repository does not contain the game, ScriptHookV, or Rockstar game files.
 
 > This documentation covers UI authoring only. Plugin, native, and hook development are outside its scope.
 

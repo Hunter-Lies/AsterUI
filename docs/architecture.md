@@ -2,6 +2,8 @@
 
 [中文](architecture.md) | [English](en/architecture.md)
 
+目标平台：**Grand Theft Auto V，Windows PC，单机剧情模式**。
+
 ## 架构
 
 ```text

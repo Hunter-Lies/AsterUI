@@ -5,7 +5,9 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-6fae94)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-6fae94)](https://hunter-lies.github.io/AsterUI/)
 
-本地 HTML/CSS/JavaScript 游戏 UI 运行时，定位类似 RageUI：AsterUI 负责页面生命周期、CEF 渲染、输入和 JSON 通讯；外部插件负责何时显示页面以及如何处理游戏功能。
+面向 **Grand Theft Auto V PC 单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时，定位类似 RageUI：AsterUI 负责页面生命周期、CEF 渲染、输入和 JSON 通讯；外部插件负责何时显示页面以及如何处理游戏功能。
+
+不面向 FiveM、RedM 或 GTA Online。运行时需要外部 ScriptHookV 消费方加载；仓库不包含游戏本体、ScriptHookV 或 Rockstar 游戏文件。
 
 > 本项目文档只覆盖 UI 开发。插件、Native 和钩子开发不属于 AsterUI UI 教程范围。
 

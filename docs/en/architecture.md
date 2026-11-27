@@ -2,6 +2,8 @@
 
 [中文](../architecture.md) | [English](architecture.md)
 
+Target platform: **Grand Theft Auto V, Windows PC, Story Mode**.
+
 ## What AsterUI provides
 
 ```text

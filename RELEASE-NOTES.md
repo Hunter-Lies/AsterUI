@@ -2,6 +2,13 @@
 
 This is the public engineering baseline.
 
+## Target game
+
+- Grand Theft Auto V, Windows PC, Story Mode.
+- Requires a ScriptHookV-based external consumer at runtime.
+- Not a FiveM, RedM, or GTA Online UI framework.
+- The release does not include GTA V, ScriptHookV, or Rockstar game files.
+
 ## Included
 
 - AsterUI ASI and Host source.
