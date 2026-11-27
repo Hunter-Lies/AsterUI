@@ -4,7 +4,7 @@ layout: home
 hero:
   name: AsterUI
   text: 用 HTML 构建游戏 UI
-  tagline: Grand Theft Auto V PC 单机剧情模式的本地 HTML/CSS/JavaScript UI 运行时。页面负责交互，外部消费方负责业务逻辑。
+  tagline: 仅支持 Grand Theft Auto V PC 传承版（Legacy）单机剧情模式的本地 HTML/CSS/JavaScript UI 运行时。页面负责交互，外部消费方负责业务逻辑。
   actions:
     - theme: brand
       text: 快速开始
@@ -31,7 +31,7 @@ features:
 
 ## 最小通讯示例
 
-AsterUI 面向 **GTA V PC Story Mode**，不适用于 FiveM、RedM 或 GTA Online。仓库不包含游戏本体或 ScriptHookV。
+仅支持 **GTA V PC 传承版（Legacy）Story Mode**。不支持增强版（Enhanced）、FiveM、RedM 或 GTA Online。仓库不包含游戏本体或 ScriptHookV。
 
 ```js
 window.addEventListener("asterui:ready", () => {

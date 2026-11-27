@@ -4,8 +4,8 @@
 
 This guide assumes you are making a UI page, not an ASI/RPH plugin.
 
-Target platform: **Grand Theft Auto V, Windows PC, Story Mode**. AsterUI is not
-a FiveM, RedM, or GTA Online UI framework.
+Target platform: **Grand Theft Auto V Legacy Edition, Windows PC, Story Mode**.
+The Enhanced Edition, FiveM, RedM, and GTA Online are not supported.
 
 ## Tools
 

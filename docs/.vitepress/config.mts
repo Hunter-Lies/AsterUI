@@ -5,7 +5,7 @@ const github = "https://github.com/Hunter-Lies/AsterUI";
 export default defineConfig({
   lang: "zh-CN",
   title: "AsterUI",
-  description: "Local HTML/CSS/JavaScript UI runtime for GTA V",
+  description: "Local HTML/CSS/JavaScript UI runtime for GTA V Legacy Edition",
   base: "/AsterUI/",
   cleanUrls: true,
   lastUpdated: true,
@@ -39,7 +39,7 @@ export default defineConfig({
         label: "简体中文",
         lang: "zh-CN",
         title: "AsterUI",
-        description: "GTA V 本地 HTML UI 运行时",
+        description: "GTA V 传承版本地 HTML UI 运行时",
         themeConfig: {
           nav: [
             { text: "指南", link: "/getting-started" },
@@ -82,7 +82,7 @@ export default defineConfig({
         lang: "en",
         link: "/en/",
         title: "AsterUI",
-        description: "Local HTML UI runtime for GTA V",
+        description: "Local HTML UI runtime for GTA V Legacy Edition",
         themeConfig: {
           nav: [
             { text: "Guide", link: "/en/getting-started" },

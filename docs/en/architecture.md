@@ -2,7 +2,8 @@
 
 [中文](../architecture.md) | [English](architecture.md)
 
-Target platform: **Grand Theft Auto V, Windows PC, Story Mode**.
+Target platform: **Grand Theft Auto V Legacy Edition, Windows PC, Story Mode**.
+The Enhanced Edition is not supported.
 
 ## What AsterUI provides
 

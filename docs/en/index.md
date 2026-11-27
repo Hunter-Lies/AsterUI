@@ -4,7 +4,7 @@ layout: home
 hero:
   name: AsterUI
   text: Build game UI with HTML
-  tagline: Local HTML/CSS/JavaScript UI runtime for Grand Theft Auto V on Windows Story Mode. Pages own interaction; external consumers own application logic.
+  tagline: Local HTML/CSS/JavaScript UI runtime for Grand Theft Auto V Legacy Edition on Windows Story Mode. Pages own interaction; external consumers own application logic.
   actions:
     - theme: brand
       text: Get started
@@ -31,7 +31,7 @@ features:
 
 ## Minimal bridge example
 
-AsterUI targets **GTA V PC Story Mode**. It does not target FiveM, RedM, or GTA Online. The repository does not include the game or ScriptHookV.
+AsterUI supports only **GTA V Legacy Edition on PC, Story Mode**. The Enhanced Edition, FiveM, RedM, and GTA Online are not supported. The repository does not include the game or ScriptHookV.
 
 ```js
 window.addEventListener("asterui:ready", () => {

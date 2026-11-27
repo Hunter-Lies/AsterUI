@@ -4,7 +4,8 @@ This is the public engineering baseline.
 
 ## Target game
 
-- Grand Theft Auto V, Windows PC, Story Mode.
+- Grand Theft Auto V Legacy Edition, Windows PC, Story Mode only.
+- The Enhanced Edition is not supported.
 - Requires a ScriptHookV-based external consumer at runtime.
 - Not a FiveM, RedM, or GTA Online UI framework.
 - The release does not include GTA V, ScriptHookV, or Rockstar game files.

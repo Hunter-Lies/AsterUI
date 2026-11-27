@@ -4,7 +4,7 @@
 
 本教程面向 UI 作者，不需要 Visual Studio 或 ScriptHookV SDK。
 
-目标平台：**Grand Theft Auto V，Windows PC，单机剧情模式**。不面向 FiveM、RedM 或 GTA Online。
+目标平台：**Grand Theft Auto V PC 传承版（Legacy），Windows，单机剧情模式**。不支持增强版（Enhanced）、FiveM、RedM 或 GTA Online。
 
 ## 创建页面
 
