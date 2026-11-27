@@ -11,9 +11,7 @@
 
 面向 **GTA V PC 传承版单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时。AsterUI 负责页面、CEF 渲染、输入和 JSON 通讯；ASI/RPH 插件负责显示页面和执行游戏功能。
 
-仅支持传承版单机模式，不支持 Enhanced、FiveM、RedM 或 GTA Online；仓库不包含游戏本体、ScriptHookV 或 Rockstar 文件。Demo 支持独占全屏、无边框全屏和窗口模式。
-
-> 文档只覆盖 UI 开发，插件、Native 和钩子开发不在范围内。
+Demo 支持独占全屏、无边框全屏和窗口模式。
 
 ## 快速开始
 

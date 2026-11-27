@@ -27,15 +27,11 @@ features:
     details: Production resources are local-only. Development mode permits exact loopback origins for HMR.
   - title: Previewable
     details: Develop in a normal browser with sdk/js/mock.js, then validate inside the game CEF runtime.
+  - title: Fullscreen ready
+    details: The demo supports exclusive fullscreen, borderless fullscreen, and windowed mode.
 ---
 
 ## Minimal bridge example
-
-AsterUI supports only **GTA V Legacy Edition on PC, Story Mode**. The Enhanced Edition, FiveM, RedM, and GTA Online are not supported. The repository does not include the game or ScriptHookV.
-
-::: tip Fullscreen ready
-The demo supports GTA V exclusive fullscreen, borderless fullscreen, and windowed mode; no windowed-mode switch is required.
-:::
 
 ```js
 window.addEventListener("asterui:ready", () => {

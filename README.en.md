@@ -11,9 +11,7 @@
 
 Local HTML/CSS/JavaScript UI runtime for **GTA V Legacy Edition, Story Mode on Windows**. AsterUI owns pages, CEF rendering, input, and the JSON bridge; ASI/RPH plugins handle page launch and game actions.
 
-Only Legacy Story Mode is supported; Enhanced, FiveM, RedM, and GTA Online are not. No game, ScriptHookV, or Rockstar files are included. The demo supports exclusive fullscreen, borderless fullscreen, and windowed mode.
-
-> Documentation covers UI authoring only. Plugin, native, and hook development are outside its scope.
+The demo supports exclusive fullscreen, borderless fullscreen, and windowed mode.
 
 ## Quick start
 

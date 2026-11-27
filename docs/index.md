@@ -27,15 +27,11 @@ features:
     details: 生产资源只允许本地包内文件，开发模式才允许精确 loopback 热重载。
   - title: 可预览
     details: 使用 sdk/js/mock.js 在普通浏览器中开发，再在游戏 CEF 中验证。
+  - title: 全屏运行
+    details: Demo 支持独占全屏、无边框全屏和窗口模式。
 ---
 
 ## 最小通讯示例
-
-仅支持 **GTA V PC 传承版（Legacy）Story Mode**。不支持增强版（Enhanced）、FiveM、RedM 或 GTA Online。仓库不包含游戏本体或 ScriptHookV。
-
-::: tip 全屏运行
-Demo 支持 GTA V 独占全屏、无边框全屏和窗口模式，无需切换到窗口化运行。
-:::
 
 ```js
 window.addEventListener("asterui:ready", () => {
