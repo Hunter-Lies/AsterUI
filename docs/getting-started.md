@@ -45,6 +45,6 @@ Mock 实现 `on`、`off`、`emit`，并触发 `asterui:ready`。
 
 ## 下一步
 
-- 通讯接口：`js-api.md`
-- 完整教程：`ui-guide.md`
-- 预览和热重载：`development.md`
+- [JavaScript 通讯接口](/js-api)
+- [完整 UI 教程](/ui-guide)
+- [预览和热重载](/development)

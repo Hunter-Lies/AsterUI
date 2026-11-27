@@ -65,6 +65,6 @@ The mock implements `on`, `off`, and `emit` and dispatches `asterui:ready`.
 
 ## Next
 
-- Communication details: `js-api.md`
-- Full authoring guide: `ui-guide.md`
-- Preview and HMR: `development.md`
+- [JavaScript bridge](/en/js-api)
+- [Full UI guide](/en/ui-guide)
+- [Preview and HMR](/en/development)
