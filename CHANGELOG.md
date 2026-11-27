@@ -3,7 +3,7 @@
 ## 1.1.8 - Demo and documentation refresh
 
 - Reworked and documented the bilingual F5 demo console.
-- Added the in-game demo screenshot to the README, documentation site, and release.
+- Added the in-game demo screenshot to the README.
 - Unified public terminology around "plugin" and removed obsolete architecture wording.
 - Aligned CEF rendering with physical game pixels for a 1:1 shared-frame output.
 - Simplified waypoint teleport to resolve ground synchronously and avoid high-altitude fallback.
