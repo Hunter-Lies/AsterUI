@@ -41,6 +41,7 @@ Copy-Item -LiteralPath (Join-Path $root 'config\AsterUI.json') `
     -Destination (Join-Path $app 'AsterUI.json')
 Copy-Item -LiteralPath (Join-Path $root 'LICENSE') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'THIRD_PARTY_NOTICES.md') -Destination $dist
+Copy-Item -LiteralPath (Join-Path $root 'CONTRIBUTORS.md') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'README.md') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'RELEASE-NOTES.md') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'docs') -Destination $dist -Recurse

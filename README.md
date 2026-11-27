@@ -217,6 +217,18 @@ Point the external consumer at `http://127.0.0.1:5173/` to use HMR inside the ga
 .\scripts\test.ps1
 ```
 
+## Contributors / 贡献者
+
+<p align="center">
+  <a href="https://github.com/Hunter-Lies/AsterUI/graphs/contributors">
+    <img src="https://contrib.rocks/image?repo=Hunter-Lies/AsterUI" alt="AsterUI contributors">
+  </a>
+</p>
+
+Contributor avatars are generated from merged commit history.
+
+贡献者头像根据已合并的提交记录自动生成。维护者与贡献者认定规则见 [CONTRIBUTORS.md](CONTRIBUTORS.md)。
+
 ## License
 
 MIT. See [LICENSE](LICENSE) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
