@@ -46,10 +46,10 @@ Copy-Item -LiteralPath (Join-Path $root 'CONTRIBUTORS.en.md') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'README.md') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'README.en.md') -Destination $dist
 Copy-Item -LiteralPath (Join-Path $root 'RELEASE-NOTES.md') -Destination $dist
-$docsMedia = Join-Path $dist 'docs\public'
-New-Item -ItemType Directory -Path $docsMedia -Force | Out-Null
-Copy-Item -LiteralPath (Join-Path $root 'docs\public\demo-console.png') `
-    -Destination $docsMedia
+$releaseMedia = Join-Path $dist 'assets'
+New-Item -ItemType Directory -Path $releaseMedia -Force | Out-Null
+Copy-Item -LiteralPath (Join-Path $root 'assets\demo-console.png') `
+    -Destination $releaseMedia
 Copy-Item -LiteralPath (Join-Path $root 'include') -Destination $dist -Recurse
 Copy-Item -LiteralPath (Join-Path $root 'sdk') -Destination $dist -Recurse
 Copy-Item -LiteralPath (Join-Path $root 'examples') -Destination $dist -Recurse

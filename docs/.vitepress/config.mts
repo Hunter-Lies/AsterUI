@@ -76,9 +76,6 @@ export default defineConfig({
   lastUpdated: true,
   head: [
     ["meta", { name: "theme-color", content: "#6fae94" }],
-    ["meta", { property: "og:image", content: "https://raw.githubusercontent.com/Hunter-Lies/AsterUI/main/docs/public/demo-console.png" }],
-    ["meta", { property: "og:image:alt", content: "AsterUI Demo Console" }],
-    ["meta", { name: "twitter:card", content: "summary_large_image" }],
     ["link", { rel: "icon", href: `${base}logo.svg` }]
   ],
   locales: {

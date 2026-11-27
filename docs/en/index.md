@@ -29,8 +29,6 @@ features:
     details: Develop in a normal browser with sdk/js/mock.js, then validate inside the game CEF runtime.
 ---
 
-![AsterUI Demo Console](/demo-console.png)
-
 ## Minimal bridge example
 
 AsterUI supports only **GTA V Legacy Edition on PC, Story Mode**. The Enhanced Edition, FiveM, RedM, and GTA Online are not supported. The repository does not include the game or ScriptHookV.

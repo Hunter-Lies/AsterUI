@@ -6,7 +6,7 @@
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-6fae94)](https://hunter-lies.github.io/AsterUI/en/)
 
 <p align="center">
-  <img src="docs/public/demo-console.png" alt="AsterUI Demo Console" width="100%">
+  <img src="assets/demo-console.png" alt="AsterUI Demo Console" width="100%">
 </p>
 
 Local HTML/CSS/JavaScript UI runtime for **Grand Theft Auto V Legacy Edition on Windows, Story Mode**. Responsibilities are similar to RageUI: AsterUI owns page lifecycle, CEF rendering, input, and JSON messaging; a plugin owns page launch policy and game actions.

@@ -6,7 +6,7 @@
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-6fae94)](https://hunter-lies.github.io/AsterUI/)
 
 <p align="center">
-  <img src="docs/public/demo-console.png" alt="AsterUI Demo Console" width="100%">
+  <img src="assets/demo-console.png" alt="AsterUI Demo Console" width="100%">
 </p>
 
 面向 **Grand Theft Auto V PC 传承版（Legacy，非增强版）单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时，定位类似 RageUI：AsterUI 负责页面生命周期、CEF 渲染、输入和 JSON 通讯；插件负责何时显示页面以及如何处理游戏功能。

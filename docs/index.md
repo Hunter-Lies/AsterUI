@@ -29,8 +29,6 @@ features:
     details: 使用 sdk/js/mock.js 在普通浏览器中开发，再在游戏 CEF 中验证。
 ---
 
-![AsterUI Demo Console](/demo-console.png)
-
 ## 最小通讯示例
 
 仅支持 **GTA V PC 传承版（Legacy）Story Mode**。不支持增强版（Enhanced）、FiveM、RedM 或 GTA Online。仓库不包含游戏本体或 ScriptHookV。

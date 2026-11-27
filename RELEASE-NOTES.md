@@ -1,32 +1,27 @@
 # AsterUI 1.1.8
 
-Demo and public documentation refresh.
+Demo 与公开文档更新。
 
-## Game support / 游戏支持
+## 游戏支持
 
-- Grand Theft Auto V Legacy Edition, Windows PC, Story Mode only.
 - 仅支持 GTA V PC 传承版、Windows、单机剧情模式。
-- The Enhanced Edition, FiveM, RedM, and GTA Online are not supported.
 - 不支持增强版、FiveM、RedM 或 GTA Online。
-- ScriptHookV, an ASI Loader, and an ASI/RPH plugin are required separately.
 - 需要自行安装 ScriptHookV、ASI Loader，并使用 ASI/RPH 插件加载 AsterUI。
-- No game files, ScriptHookV runtime, or Rockstar assets are included.
+- 不包含游戏本体、ScriptHookV 或 Rockstar 资源。
 
-## Included / 包含内容
+## 包含内容
 
-- AsterUI ASI and CEF Host runtime.
-- `AsterUI.Demo.asi` with a bilingual F5 console.
-- Player actions, vehicle controls, waypoint and destination teleport, time and weather controls.
-- Stable C ABI v1 and C++ wrapper headers.
-- JavaScript bridge declarations, browser mock, and public examples.
-- Local-only resource policy and opt-in loopback HMR.
+- AsterUI ASI 与 CEF Host 运行时。
+- `AsterUI.Demo.asi` 与中英文切换的 F5 Demo 控制台。
+- 玩家操作、车辆控制、路点与地点传送、时间天气控制。
+- 稳定 C ABI v1 与 C++ 包装头文件。
+- JavaScript 通讯声明、浏览器 mock 和公开示例。
+- 本地资源策略与按需启用的 loopback 热重载。
 
-## Demo / 演示
+## 演示
 
-- The demo image is published in the repository, documentation site, and release.
-- 演示图会包含在仓库、文档站和 Release 中。
+- 演示图仅用于 GitHub README 展示。
 
-## Distribution / 分发
+## 分发
 
-- ScriptHookV SDK, game files, HUNTER production interfaces, and private business plugins are not included.
 - 不包含 ScriptHookV SDK、游戏文件、HUNTER 生产界面和私有业务插件。
