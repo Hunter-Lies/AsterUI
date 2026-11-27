@@ -5,9 +5,15 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-6fae94)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-6fae94)](https://hunter-lies.github.io/AsterUI/en/)
 
-Local HTML/CSS/JavaScript UI runtime for **Grand Theft Auto V Legacy Edition on Windows, Story Mode**. Responsibilities are similar to RageUI: AsterUI owns page lifecycle, CEF rendering, input, and JSON messaging; an external consumer owns page launch policy and game actions.
+<p align="center">
+  <img src="docs/public/demo-console.png" alt="AsterUI Demo Console" width="100%">
+</p>
 
-AsterUI does not support the GTA V Enhanced Edition, FiveM, RedM, or GTA Online. A ScriptHookV-based external consumer is required at runtime. The repository does not contain the game, ScriptHookV, or Rockstar game files.
+Local HTML/CSS/JavaScript UI runtime for **Grand Theft Auto V Legacy Edition on Windows, Story Mode**. Responsibilities are similar to RageUI: AsterUI owns page lifecycle, CEF rendering, input, and JSON messaging; a plugin owns page launch policy and game actions.
+
+In this documentation, "plugin" means the ASI/RPH plugin that hosts AsterUI pages, receives page events, and calls game functions.
+
+AsterUI does not support the GTA V Enhanced Edition, FiveM, RedM, or GTA Online. The runtime requires an ASI/RPH plugin. The repository does not contain the game, ScriptHookV, or Rockstar game files.
 
 > This documentation covers UI authoring only. Plugin, native, and hook development are outside its scope.
 
@@ -34,13 +40,13 @@ window.addEventListener("asterui:ready", () => {
 ```text
 HTML interaction
   -> window.asterui.emit("myui:action", payload)
-  -> external UI consumer
-  -> consumer sends myui:state
+  -> game plugin
+  -> plugin sends myui:state
   -> window.asterui.on receives JSON
   -> HTML update
 ```
 
-AsterUI owns page lifecycle, rendering, mouse and keyboard input, resource allowlists, and JSON event transport. The external consumer owns event semantics, launch policy, hotkeys, and game actions.
+AsterUI owns page lifecycle, rendering, mouse and keyboard input, resource allowlists, and JSON event transport. The plugin owns event semantics, launch policy, hotkeys, and game actions.
 
 ## Documentation
 
@@ -53,13 +59,13 @@ AsterUI owns page lifecycle, rendering, mouse and keyboard input, resource allow
 
 ## Examples
 
-- `demo-ui`: player state, player actions, GTA waypoint detection, and waypoint teleport.
+- `demo-ui`: player state and actions, vehicle controls, GTA waypoint and destination teleport, time and weather controls, and Chinese/English language switching.
 - `hello-overlay`: minimal bridge handshake.
 - `interactive-menu`: tabs, switches, pointer input.
 - `notification`: event-driven notification.
 - `vite-starter`: localhost HMR.
 
-`AsterUI.Demo.asi` is only a demo consumer and is not part of the UI authoring tutorial.
+`AsterUI.Demo.asi` is the public demo plugin and is not part of the UI authoring tutorial.
 
 ## Contributors
 

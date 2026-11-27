@@ -43,7 +43,7 @@ window.asterui.emit("demo:command", {
 });
 ```
 
-`emit` serializes the payload as JSON and sends it to the external consumer.
+`emit` serializes the payload as JSON and sends it to the plugin.
 
 ## Event names
 
@@ -73,7 +73,7 @@ Examples:
 - Keep messages small.
 - Do not send DOM nodes, functions, Blobs, or cyclic objects.
 - The bridge does not interpret application fields such as `action`; their
-  meaning belongs to the external consumer.
+  meaning belongs to the plugin.
 
 ## Lifecycle pattern
 
@@ -84,7 +84,7 @@ window.addEventListener("asterui:ready", () => {
 });
 ```
 
-The page asks for state. The consumer responds with an application event. The
+The page asks for state. The plugin responds with an application event. The
 page renders the event payload.
 
 ## Compatibility

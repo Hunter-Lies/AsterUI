@@ -1,6 +1,7 @@
 import { defineConfig } from "vitepress";
 
 const github = "https://github.com/Hunter-Lies/AsterUI";
+const base = "/AsterUI/";
 
 const zhNav = [
   { text: "指南", link: "/getting-started" },
@@ -70,12 +71,15 @@ export default defineConfig({
   lang: "zh-CN",
   title: "AsterUI",
   description: "Local HTML/CSS/JavaScript UI runtime for GTA V Legacy Edition",
-  base: "/AsterUI/",
+  base,
   cleanUrls: true,
   lastUpdated: true,
   head: [
     ["meta", { name: "theme-color", content: "#6fae94" }],
-    ["link", { rel: "icon", href: "/logo.svg" }]
+    ["meta", { property: "og:image", content: "https://raw.githubusercontent.com/Hunter-Lies/AsterUI/main/docs/public/demo-console.png" }],
+    ["meta", { property: "og:image:alt", content: "AsterUI Demo Console" }],
+    ["meta", { name: "twitter:card", content: "summary_large_image" }],
+    ["link", { rel: "icon", href: `${base}logo.svg` }]
   ],
   locales: {
     root: {

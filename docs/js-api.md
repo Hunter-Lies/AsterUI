@@ -61,7 +61,7 @@ window.asterui.emit("demo:command", {
 - 保持数据体积较小。
 - 不建议发送无结构字符串。
 - AsterUI 不解释 `action` 等业务字段。
-- 业务含义由外部消费方决定。
+- 业务含义由插件决定。
 
 ## 兼容别名
 

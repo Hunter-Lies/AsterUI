@@ -77,6 +77,33 @@ void BrowserClient::GetViewRect(CefRefPtr<CefBrowser>, CefRect& rect) {
         static_cast<int>(state_->height));
 }
 
+bool BrowserClient::GetScreenInfo(
+    CefRefPtr<CefBrowser>,
+    CefScreenInfo& screenInfo) {
+    const CefRect view(
+        0,
+        0,
+        static_cast<int>(state_->width),
+        static_cast<int>(state_->height));
+    screenInfo.Set(
+        1.0f,
+        32,
+        8,
+        false,
+        view,
+        view);
+    if (!loggedScreenInfo_) {
+        loggedScreenInfo_ = true;
+        Log::Info(
+            "browser " + std::to_string(state_->id) +
+            " uses 1:1 physical pixels: " +
+            std::to_string(state_->width) + "x" +
+            std::to_string(state_->height) +
+            " device_scale_factor=1.0");
+    }
+    return true;
+}
+
 void BrowserClient::OnPaint(
     CefRefPtr<CefBrowser>,
     PaintElementType type,

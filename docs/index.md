@@ -4,7 +4,7 @@ layout: home
 hero:
   name: AsterUI
   text: 用 HTML 构建游戏 UI
-  tagline: 仅支持 Grand Theft Auto V PC 传承版（Legacy）单机剧情模式的本地 HTML/CSS/JavaScript UI 运行时。页面负责交互，外部消费方负责业务逻辑。
+  tagline: 仅支持 Grand Theft Auto V PC 传承版（Legacy）单机剧情模式的本地 HTML/CSS/JavaScript UI 运行时。页面负责交互，插件负责业务逻辑。
   actions:
     - theme: brand
       text: 快速开始
@@ -20,14 +20,16 @@ hero:
     alt: AsterUI
 features:
   - title: 专注 UI
-    details: 页面只负责布局、动画和交互；插件、Native 和热键属于外部消费方。
+    details: 页面只负责布局、动画和交互；Native、热键和游戏功能由插件处理。
   - title: JSON 通讯
-    details: 使用 window.asterui 的 on、off、emit 在页面和消费方之间传递结构化事件。
+    details: 使用 window.asterui 的 on、off、emit 在页面和插件之间传递结构化事件。
   - title: 本地优先
     details: 生产资源只允许本地包内文件，开发模式才允许精确 loopback 热重载。
   - title: 可预览
     details: 使用 sdk/js/mock.js 在普通浏览器中开发，再在游戏 CEF 中验证。
 ---
+
+![AsterUI Demo Console](/demo-console.png)
 
 ## 最小通讯示例
 

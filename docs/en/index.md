@@ -4,7 +4,7 @@ layout: home
 hero:
   name: AsterUI
   text: Build game UI with HTML
-  tagline: Local HTML/CSS/JavaScript UI runtime for Grand Theft Auto V Legacy Edition on Windows Story Mode. Pages own interaction; external consumers own application logic.
+  tagline: Local HTML/CSS/JavaScript UI runtime for Grand Theft Auto V Legacy Edition on Windows Story Mode. Pages own interaction; plugins own application logic.
   actions:
     - theme: brand
       text: Get started
@@ -20,7 +20,7 @@ hero:
     alt: AsterUI
 features:
   - title: UI focused
-    details: Pages own layout, animation, and interaction. Plugins, native calls, and hotkeys belong to an external consumer.
+    details: Pages own layout, animation, and interaction. Native calls, hotkeys, and game features belong to the plugin.
   - title: JSON bridge
     details: Use on, off, and emit on window.asterui to exchange structured events.
   - title: Local first
@@ -28,6 +28,8 @@ features:
   - title: Previewable
     details: Develop in a normal browser with sdk/js/mock.js, then validate inside the game CEF runtime.
 ---
+
+![AsterUI Demo Console](/demo-console.png)
 
 ## Minimal bridge example
 

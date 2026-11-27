@@ -13,8 +13,8 @@ and JavaScript. AsterUI adds one global object:
 window.asterui
 ```
 
-The page uses `emit` to send JSON events to the external consumer and `on` to
-receive JSON state. The consumer is responsible for native actions and business
+The page uses `emit` to send JSON events to the plugin and `on` to receive JSON
+state. The plugin is responsible for native actions and business
 logic.
 
 Think of it like RageUI's responsibilities: the framework provides the UI layer,
@@ -67,7 +67,7 @@ Recommended lifecycle events:
 - `myui:ready`: UI mounted and ready for initial state.
 - `myui:request`: UI requests a refresh.
 - `myui:action`: UI sends a user action.
-- `myui:state`: consumer sends state back to the UI.
+- `myui:state`: plugin sends state back to the UI.
 
 ## 4. Event communication
 
@@ -166,7 +166,7 @@ disabled in released packages.
 - If preview works but the game page is blank, check asset paths and the host
   log for blocked resources.
 - Use `console.log` and the `AsterUI.Host.log` console forwarding.
-- Test with the same browser dimensions used by the external consumer.
+- Test with the same browser dimensions used by the plugin.
 - Do not add network dependencies; production mode blocks them.
 
 ## 9. Packaging a UI
@@ -180,7 +180,7 @@ AsterUI/ui/<page-name>/
 Include all CSS, JavaScript, images, and fonts as relative local assets. Avoid
 absolute machine paths and development-only localhost URLs.
 
-The external consumer chooses the page URL. AsterUI does not automatically
+The plugin chooses the page URL. AsterUI does not automatically
 discover pages or define a menu entry.
 
 ## 10. Scope boundary
@@ -191,7 +191,7 @@ Outside AsterUI UI documentation:
 - native GTA V calls
 - hotkey registration
 - page launch policy
-- consumer-side persistence and state storage
+- plugin-side persistence and state storage
 
 Inside AsterUI UI documentation:
 

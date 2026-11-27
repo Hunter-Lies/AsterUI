@@ -74,6 +74,9 @@ public:
         CefRefPtr<CefCallback> callback) override;
 
     void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect& rect) override;
+    bool GetScreenInfo(
+        CefRefPtr<CefBrowser> browser,
+        CefScreenInfo& screenInfo) override;
     void OnPaint(
         CefRefPtr<CefBrowser> browser,
         PaintElementType type,
@@ -130,6 +133,7 @@ private:
     BrowserManager* manager_ = nullptr;
     std::shared_ptr<BrowserState> state_;
     bool loggedMismatch_ = false;
+    bool loggedScreenInfo_ = false;
     IMPLEMENT_REFCOUNTING(BrowserClient);
 };
 

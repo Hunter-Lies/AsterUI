@@ -17,7 +17,7 @@ injected window.asterui bridge
 AsterUI host/runtime boundary
         |
         v
-external UI consumer
+game plugin (ASI/RPH)
 ```
 
 AsterUI owns the page lifecycle, browser rendering, input routing, resource
@@ -26,16 +26,19 @@ policy, and JSON event transport.
 ## What AsterUI does not define
 
 - what a page means
-- when a consumer should open it
+- when a plugin should open it
 - which hotkey opens it
 - what a native action event does
 - how application data is persisted
 
-Those are consumer-side responsibilities and are outside the UI authoring guide.
+In this documentation, "plugin" means the ASI/RPH plugin that hosts AsterUI
+pages, receives page events, and calls game functions.
+
+Those are plugin responsibilities and are outside the UI authoring guide.
 
 ## Page model
 
-Each page is a separate browser surface. A consumer chooses its URL, size,
+Each page is a separate browser surface. A plugin chooses its URL, size,
 visibility, focus, layer, and opacity through the integration layer.
 
 UI authors only need to know:

@@ -43,10 +43,10 @@ window.addEventListener("asterui:ready", () => {
 });
 ```
 
-The external consumer receives `myui:request` and may respond with:
+The plugin receives `myui:request` and may respond with:
 
 ```js
-// Conceptual consumer-side event sent to the page.
+// Conceptual plugin-side event sent to the page.
 window.asterui.on("myui:state", (state) => {});
 ```
 

@@ -12,9 +12,9 @@ AsterUI 为页面提供一个全局桥接对象：
 window.asterui
 ```
 
-页面通过 `emit` 发送 JSON 事件，通过 `on` 接收 JSON 状态。页面不直接执行游戏功能。事件由外部 UI 消费方接收和处理。
+页面通过 `emit` 发送 JSON 事件，通过 `on` 接收 JSON 状态。页面不直接执行游戏功能。事件由插件接收和处理。
 
-和 RageUI 的角色类似：AsterUI 负责 UI 层，消费方负责业务逻辑。
+和 RageUI 的角色类似：AsterUI 负责 UI 层，插件负责业务逻辑。
 
 ## 2. 页面结构
 
@@ -55,7 +55,7 @@ window.addEventListener("asterui:ready", () => {
 - `myui:ready`：页面已准备好。
 - `myui:request`：请求最新状态。
 - `myui:action`：发送用户操作。
-- `myui:state`：消费方回传页面状态。
+- `myui:state`：插件回传页面状态。
 
 ## 4. 通讯
 
@@ -84,7 +84,7 @@ window.asterui.emit("myui:action", {
 - 数据必须可以 JSON 序列化。
 - 使用页面自己的命名空间。
 - 不要传递 DOM、函数、Blob 或循环对象。
-- 事件名称本身不定义游戏功能，功能含义由外部消费方决定。
+- 事件名称本身不定义游戏功能，功能含义由插件决定。
 
 推荐请求/响应模式：
 
@@ -156,7 +156,7 @@ AsterUI/ui/<page-name>/
 
 必须包含全部本地资源，不包含 localhost 地址、机器绝对路径、缓存和日志。
 
-AsterUI 不自动发现页面，也不定义菜单入口。页面何时加载由外部消费方决定。
+AsterUI 不自动发现页面，也不定义菜单入口。页面何时加载由插件决定。
 
 ## 10. 范围边界
 
@@ -175,4 +175,4 @@ AsterUI UI 教程包含：
 - Native 调用
 - 热键注册
 - 页面启动策略
-- 消费方业务逻辑
+- 插件业务逻辑

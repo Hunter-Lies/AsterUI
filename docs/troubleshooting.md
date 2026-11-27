@@ -32,11 +32,11 @@ window.addEventListener("asterui:ready", () => {
 - 在 `asterui:ready` 后发送请求事件。
 - 请求和响应事件名必须完全一致。
 - 数据必须可以 JSON 序列化。
-- 响应由外部消费方决定，AsterUI 只负责传递。
+- 响应由插件决定，AsterUI 只负责传递。
 
 ## 布局或输入问题
 
-- 使用消费方实际提供的尺寸测试。
+- 使用插件实际提供的尺寸测试。
 - 控件必须位于视口内。
 - 提供 hover、focus、active、disabled 状态。
 - 不要假设只有鼠标输入。

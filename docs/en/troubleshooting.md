@@ -34,12 +34,12 @@ The bridge is not available for direct calls during initial HTML parsing.
 - Emit a request event after `asterui:ready`.
 - Confirm both sides use exactly the same event name.
 - Check the payload is valid JSON.
-- The external consumer, not AsterUI, defines what the event means and whether
+- The plugin, not AsterUI, defines what the event means and whether
   it sends a response.
 
 ## Layout or input problems
 
-- Test at the browser dimensions supplied by the consumer.
+- Test at the browser dimensions supplied by the plugin.
 - Keep interactive controls inside the viewport.
 - Provide hover, focus, active, and disabled states.
 - Use pointer and keyboard events rather than desktop-only assumptions.

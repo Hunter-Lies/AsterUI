@@ -1,31 +1,32 @@
-# AsterUI 1.1.7
+# AsterUI 1.1.8
 
-This is the public engineering baseline.
+Demo and public documentation refresh.
 
-## Target game
+## Game support / 游戏支持
 
 - Grand Theft Auto V Legacy Edition, Windows PC, Story Mode only.
-- The Enhanced Edition is not supported.
-- Requires a ScriptHookV-based external consumer at runtime.
-- Not a FiveM, RedM, or GTA Online UI framework.
-- The release does not include GTA V, ScriptHookV, or Rockstar game files.
+- 仅支持 GTA V PC 传承版、Windows、单机剧情模式。
+- The Enhanced Edition, FiveM, RedM, and GTA Online are not supported.
+- 不支持增强版、FiveM、RedM 或 GTA Online。
+- ScriptHookV, an ASI Loader, and an ASI/RPH plugin are required separately.
+- 需要自行安装 ScriptHookV、ASI Loader，并使用 ASI/RPH 插件加载 AsterUI。
+- No game files, ScriptHookV runtime, or Rockstar assets are included.
 
-## Included
+## Included / 包含内容
 
-- AsterUI ASI and Host source.
-- `AsterUI.Demo.asi` with an F5 player and GTA waypoint teleport interface.
-- Stable C ABI v1 and C++ wrapper.
-- JavaScript bridge declarations and browser mock.
-- Generic overlay, menu, notification, and Vite examples.
-- Portable build, package, and smoke-test scripts.
+- AsterUI ASI and CEF Host runtime.
+- `AsterUI.Demo.asi` with a bilingual F5 console.
+- Player actions, vehicle controls, waypoint and destination teleport, time and weather controls.
+- Stable C ABI v1 and C++ wrapper headers.
+- JavaScript bridge declarations, browser mock, and public examples.
+- Local-only resource policy and opt-in loopback HMR.
 
-## Security
+## Demo / 演示
 
-- All browser resource types now pass through one allowlist.
-- Production allows only package-local pages and necessary embedded data.
-- Development mode allows only explicitly configured loopback origins.
+- The demo image is published in the repository, documentation site, and release.
+- 演示图会包含在仓库、文档站和 Release 中。
 
-## Distribution
+## Distribution / 分发
 
-- ScriptHookV SDK and runtime files are not included.
-- HUNTER production interfaces and plugins are not included.
+- ScriptHookV SDK, game files, HUNTER production interfaces, and private business plugins are not included.
+- 不包含 ScriptHookV SDK、游戏文件、HUNTER 生产界面和私有业务插件。

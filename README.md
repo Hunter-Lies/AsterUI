@@ -5,9 +5,15 @@
 [![License: MIT](https://img.shields.io/badge/license-MIT-6fae94)](LICENSE)
 [![Documentation](https://img.shields.io/badge/docs-GitHub%20Pages-6fae94)](https://hunter-lies.github.io/AsterUI/)
 
-面向 **Grand Theft Auto V PC 传承版（Legacy，非增强版）单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时，定位类似 RageUI：AsterUI 负责页面生命周期、CEF 渲染、输入和 JSON 通讯；外部插件负责何时显示页面以及如何处理游戏功能。
+<p align="center">
+  <img src="docs/public/demo-console.png" alt="AsterUI Demo Console" width="100%">
+</p>
 
-不支持 GTA V 增强版（Enhanced）、FiveM、RedM 或 GTA Online。运行时需要外部 ScriptHookV 消费方加载；仓库不包含游戏本体、ScriptHookV 或 Rockstar 游戏文件。
+面向 **Grand Theft Auto V PC 传承版（Legacy，非增强版）单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时，定位类似 RageUI：AsterUI 负责页面生命周期、CEF 渲染、输入和 JSON 通讯；插件负责何时显示页面以及如何处理游戏功能。
+
+本文所说的“插件”指加载 AsterUI 页面、接收页面事件并调用游戏功能的 ASI/RPH 插件。
+
+不支持 GTA V 增强版（Enhanced）、FiveM、RedM 或 GTA Online。运行时需要由 ASI/RPH 插件加载；仓库不包含游戏本体、ScriptHookV 或 Rockstar 游戏文件。
 
 > 本项目文档只覆盖 UI 开发。插件、Native 和钩子开发不属于 AsterUI UI 教程范围。
 
@@ -34,13 +40,13 @@ window.addEventListener("asterui:ready", () => {
 ```text
 HTML 交互
   -> window.asterui.emit("myui:action", 数据)
-  -> 外部 UI 消费方
-  -> 外部消费方发送 myui:state
+  -> 游戏插件
+  -> 插件发送 myui:state
   -> window.asterui.on 接收 JSON
   -> HTML 更新
 ```
 
-AsterUI 只负责页面生命周期、渲染、鼠标键盘输入、资源白名单和 JSON 事件传输。事件名称、页面启动策略、热键和游戏功能由外部消费方定义。
+AsterUI 只负责页面生命周期、渲染、鼠标键盘输入、资源白名单和 JSON 事件传输。事件名称、页面启动策略、热键和游戏功能由插件定义。
 
 ## 文档
 
@@ -53,13 +59,13 @@ AsterUI 只负责页面生命周期、渲染、鼠标键盘输入、资源白名
 
 ## 示例
 
-- `demo-ui`：玩家状态、玩家操作、GTA 地图导航点检测和路点传送。
+- `demo-ui`：玩家状态与操作、车辆操作、GTA 地图路点与地点传送、时间天气控制和中英文切换。
 - `hello-overlay`：最小通讯示例。
 - `interactive-menu`：标签页、开关和输入。
 - `notification`：事件驱动通知。
 - `vite-starter`：localhost HMR。
 
-`AsterUI.Demo.asi` 只是 Demo 消费方，不属于 UI 开发教程。
+`AsterUI.Demo.asi` 只是公开 Demo 插件，不属于 UI 开发教程。
 
 ## 贡献者
 

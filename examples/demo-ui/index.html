@@ -3,18 +3,27 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>AsterUI Demo</title>
+  <title>AsterUI Demo Console</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: rgba(8, 10, 12, 0.95);
-      --line: rgba(255, 255, 255, 0.105);
-      --text: #f2f4f5;
-      --muted: #8d98a0;
-      --accent: #6fae94;
-      --warning: #d7a869;
+      --canvas: #0a0c0d;
+      --panel: #111516;
+      --panel-raised: #151a1b;
+      --line: rgba(255, 255, 255, 0.09);
+      --line-strong: rgba(255, 255, 255, 0.16);
+      --text: #edf1ee;
+      --muted: #8d9892;
+      --faint: #5f6964;
+      --accent: #82b59c;
+      --accent-soft: rgba(130, 181, 156, 0.12);
+      --warm: #d4ad70;
+      --danger: #d67d75;
       font-family: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI",
         "Microsoft YaHei", sans-serif;
+      font-size: 13px;
+      font-synthesis: none;
+      text-rendering: geometricPrecision;
     }
 
     * {
@@ -28,124 +37,229 @@
       height: 100%;
       margin: 0;
       overflow: hidden;
-      background: rgba(0, 0, 0, 0.46);
+    }
+
+    body {
+      display: grid;
+      place-items: center;
+      background: transparent;
       color: var(--text);
+      -webkit-font-smoothing: antialiased;
     }
 
     button {
       font: inherit;
     }
 
+    button,
+    .nav-item,
+    .action-button,
+    .location-button {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button:focus-visible {
+      outline: 2px solid rgba(130, 181, 156, 0.72);
+      outline-offset: 2px;
+    }
+
     .shell {
-      position: absolute;
-      top: 50%;
-      left: 50%;
+      position: relative;
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
-      width: min(900px, calc(100vw - 56px));
-      height: min(590px, calc(100vh - 48px));
+      grid-template-rows: 72px minmax(0, 1fr) 46px;
+      width: min(1080px, calc(100vw - 64px));
+      height: min(720px, calc(100vh - 48px));
+      min-height: 540px;
       overflow: hidden;
-      border: 1px solid var(--line);
+      border: 1px solid var(--line-strong);
       border-radius: 8px;
-      background: var(--bg);
-      box-shadow: 0 24px 90px rgba(0, 0, 0, 0.54);
-      transform: translate(-50%, -50%);
+      background: var(--canvas);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.62);
     }
 
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 20px;
-      padding: 16px 18px;
+      gap: 22px;
+      padding: 0 18px;
       border-bottom: 1px solid var(--line);
+      background: #0f1314;
     }
 
-    .identity,
-    .metrics {
+    .brand,
+    .header-status,
+    .live-state,
+    .clock {
       display: flex;
       align-items: center;
-      gap: 10px;
     }
 
-    .mark {
+    .brand {
+      min-width: 0;
+      gap: 11px;
+    }
+
+    .brand-mark {
       display: grid;
       place-items: center;
-      width: 34px;
-      height: 34px;
-      border: 1px solid rgba(111, 174, 148, 0.48);
-      border-radius: 50%;
+      flex: none;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(130, 181, 156, 0.34);
+      border-radius: 8px;
+      background: var(--accent-soft);
       color: var(--accent);
-      font: 700 12px/1 Consolas, monospace;
+      font: 750 13px/1 Consolas, monospace;
+    }
+
+    .brand-copy {
+      min-width: 0;
     }
 
     h1 {
+      overflow: hidden;
       margin: 0;
-      font-size: 17px;
-      font-weight: 650;
+      font-size: 16px;
+      font-weight: 680;
+      line-height: 1.2;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    header small {
+    .brand-copy small {
       display: block;
-      margin-top: 3px;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1;
+    }
+
+    .header-status {
+      flex: none;
+      gap: 9px;
+    }
+
+    .live-state,
+    .clock,
+    .language-button {
+      height: 30px;
+      gap: 7px;
+      padding: 0 9px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.022);
       color: var(--muted);
       font-size: 11px;
     }
 
-    .metric {
-      min-width: 62px;
-      padding: 7px 9px;
-      border: 1px solid var(--line);
+    .language-button {
+      display: flex;
+      align-items: center;
+      min-width: 48px;
+      justify-content: center;
+      border-color: var(--line);
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.025);
-    }
-
-    .metric span {
-      display: block;
+      background: rgba(255, 255, 255, 0.022);
       color: var(--muted);
-      font: 700 8px/1 Consolas, monospace;
-      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 650;
+      white-space: nowrap;
+      cursor: pointer;
     }
 
-    .metric strong {
-      display: block;
-      margin-top: 5px;
-      font-size: 12px;
-      font-weight: 650;
+    .language-button:hover {
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--text);
+    }
+
+    .nav-language-button {
+      justify-content: flex-start;
+      width: 100%;
+      height: 36px;
+      margin-top: 7px;
+      padding: 0 10px;
+      font-size: 10.5px;
+    }
+
+    .live-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 3px rgba(130, 181, 156, 0.1);
+    }
+
+    .clock {
+      color: var(--text);
+      font: 650 12px/1 Consolas, monospace;
       font-variant-numeric: tabular-nums;
     }
 
     .key {
-      padding: 6px 9px;
+      display: inline-grid;
+      place-items: center;
+      min-width: 28px;
+      height: 26px;
+      padding: 0 7px;
       border: 1px solid var(--line);
+      border-bottom-color: rgba(255, 255, 255, 0.2);
       border-radius: 5px;
       color: var(--muted);
       font: 700 10px/1 Consolas, monospace;
     }
 
-    .layout {
+    .icon-button {
       display: grid;
-      grid-template-columns: 178px minmax(0, 1fr);
+      place-items: center;
+      flex: none;
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .icon-button:hover {
+      border-color: var(--line);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+    }
+
+    .app-grid {
+      display: grid;
+      grid-template-columns: 196px minmax(0, 1fr);
       min-height: 0;
     }
 
     nav {
-      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      padding: 14px 10px 12px;
       border-right: 1px solid var(--line);
-      background: rgba(255, 255, 255, 0.017);
+      background: #0d1011;
     }
 
     .nav-label {
-      margin: 4px 8px 10px;
-      color: var(--muted);
-      font: 700 8px/1 Consolas, monospace;
+      margin: 3px 9px 9px;
+      color: var(--faint);
+      font: 700 9px/1 Consolas, monospace;
       text-transform: uppercase;
     }
 
     .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 11px;
       width: 100%;
-      margin-bottom: 5px;
-      padding: 9px 10px;
+      min-height: 40px;
+      margin-bottom: 3px;
+      padding: 0 10px;
       border: 1px solid transparent;
       border-radius: 6px;
       background: transparent;
@@ -154,69 +268,420 @@
       cursor: pointer;
     }
 
-    .nav-item.active {
-      border-color: rgba(111, 174, 148, 0.24);
-      background: rgba(111, 174, 148, 0.09);
+    .nav-item:hover {
+      background: rgba(255, 255, 255, 0.032);
       color: var(--text);
+    }
+
+    .nav-item.active {
+      border-color: rgba(130, 181, 156, 0.2);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .nav-item.active svg {
+      color: var(--accent);
+    }
+
+    .nav-item span {
+      overflow: hidden;
+      font-size: 13px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .nav-context {
+      margin-top: auto;
+      padding: 13px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.018);
+    }
+
+    .nav-context strong,
+    .nav-context span {
+      display: block;
+    }
+
+    .nav-context strong {
+      font-size: 11px;
+      font-weight: 650;
+    }
+
+    .nav-context span {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 10px;
+      line-height: 1.45;
     }
 
     main {
       min-width: 0;
       min-height: 0;
-      padding: 20px;
+      overflow-y: auto;
+      padding: 25px 28px 28px;
+      scrollbar-color: rgba(255, 255, 255, 0.16) transparent;
+      scrollbar-width: thin;
+    }
+
+    main::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    main::-webkit-scrollbar-thumb {
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.14);
     }
 
     .view {
       display: none;
-      height: 100%;
-      min-height: 0;
+      width: 100%;
+      max-width: 970px;
+      margin: 0 auto;
     }
 
     .view.active {
       display: block;
     }
 
-    h2 {
-      margin: 0 0 6px;
-      font-size: 21px;
-      font-weight: 650;
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 20px;
     }
 
-    .lead {
-      margin: 0 0 16px;
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--accent);
+      font: 700 9px/1 Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 680;
+      line-height: 1.15;
+    }
+
+    .page-description {
+      max-width: 690px;
+      margin: 9px 0 0;
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
-    .rows {
+    .status-grid {
       display: grid;
-      gap: 8px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
     }
 
-    .row {
+    .metric {
+      min-width: 0;
+      padding: 15px 15px 14px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+    }
+
+    .metric-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 24px;
-      padding: 12px 13px;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: rgba(255, 255, 255, 0.024);
-    }
-
-    .row strong {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-    }
-
-    .row small {
-      display: block;
-      margin-top: 3px;
+      gap: 10px;
       color: var(--muted);
       font-size: 11px;
-      line-height: 1.4;
+    }
+
+    .metric-head svg {
+      color: var(--faint);
+    }
+
+    .metric-value {
+      display: block;
+      overflow: hidden;
+      margin-top: 12px;
+      font: 650 26px/1 Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .metric-note {
+      display: block;
+      margin-top: 7px;
+      color: var(--faint);
+      font-size: 10px;
+    }
+
+    .bar {
+      height: 4px;
+      margin-top: 11px;
+      overflow: hidden;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .bar > i {
+      display: block;
+      width: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width 180ms ease;
+    }
+
+    .bar.warm > i {
+      background: var(--warm);
+    }
+
+    .dashboard-grid,
+    .split-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(280px, 0.75fr);
+      gap: 14px;
+    }
+
+    .panel {
+      min-width: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--panel);
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      min-height: 48px;
+      padding: 0 16px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .panel-head h3 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .panel-head span {
+      color: var(--faint);
+      font: 700 9px/1 Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .panel-body {
+      padding: 15px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .action-button {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 44px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-raised);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .action-button:hover:not(:disabled),
+    .location-button:hover:not(:disabled) {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: #1a2021;
+    }
+
+    .action-button svg {
+      flex: none;
+      color: var(--accent);
+    }
+
+    .action-button span {
+      overflow: hidden;
+      font-size: 12px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .action-button.primary {
+      border-color: rgba(130, 181, 156, 0.3);
+      background: var(--accent-soft);
+    }
+
+    .action-button.danger svg {
+      color: var(--danger);
+    }
+
+    button:disabled {
+      cursor: default;
+      opacity: 0.4;
+    }
+
+    .activity-list {
+      display: grid;
+      gap: 0;
+      min-height: 150px;
+    }
+
+    .activity {
+      display: grid;
+      grid-template-columns: 8px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 9px;
+      min-height: 38px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.045);
+      color: var(--muted);
+      font-size: 10.5px;
+    }
+
+    .activity:last-child {
+      border-bottom: 0;
+    }
+
+    .activity::before {
+      content: "";
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .activity span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .activity time {
+      color: var(--faint);
+      font: 9px/1 Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .telemetry {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1px;
+      margin-top: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: var(--line);
+    }
+
+    .telemetry div {
+      min-width: 0;
+      padding: 12px 13px;
+      background: var(--panel);
+    }
+
+    .telemetry span,
+    .telemetry strong {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .telemetry span {
+      color: var(--faint);
+      font: 700 9px/1 Consolas, monospace;
+      text-transform: uppercase;
+    }
+
+    .telemetry strong {
+      margin-top: 7px;
+      font: 600 11px/1 Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .list {
+      display: grid;
+    }
+
+    .list-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      min-height: 64px;
+      padding: 11px 15px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .list-row:last-child {
+      border-bottom: 0;
+    }
+
+    .list-copy {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 11px;
+    }
+
+    .list-icon {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 32px;
+      height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--accent);
+    }
+
+    .list-copy strong,
+    .list-copy small {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .list-copy strong {
+      font-size: 13px;
+      font-weight: 620;
+    }
+
+    .list-copy small {
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 10.5px;
+    }
+
+    .compact-button {
+      min-width: 72px;
+      height: 34px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+      font-size: 10.5px;
+      cursor: pointer;
+    }
+
+    .compact-button:hover:not(:disabled) {
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.08);
     }
 
     .switch {
@@ -224,9 +689,10 @@
       flex: none;
       width: 42px;
       height: 23px;
+      padding: 0;
       border: 1px solid var(--line);
       border-radius: 999px;
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.075);
       cursor: pointer;
     }
 
@@ -239,12 +705,12 @@
       height: 15px;
       border-radius: 50%;
       background: var(--muted);
-      transition: transform 180ms ease, background 180ms ease;
+      transition: transform 160ms ease, background 160ms ease;
     }
 
     .switch[aria-checked="true"] {
-      border-color: rgba(111, 174, 148, 0.42);
-      background: rgba(111, 174, 148, 0.17);
+      border-color: rgba(130, 181, 156, 0.42);
+      background: rgba(130, 181, 156, 0.17);
     }
 
     .switch[aria-checked="true"]::after {
@@ -252,151 +718,316 @@
       transform: translateX(19px);
     }
 
-    .action,
-    .primary {
-      flex: none;
-      padding: 8px 11px;
+    .condition {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+      padding: 15px;
+    }
+
+    .condition > div {
+      min-width: 0;
+      padding: 12px;
       border: 1px solid var(--line);
       border-radius: 6px;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text);
-      cursor: pointer;
+      background: rgba(255, 255, 255, 0.02);
     }
 
-    .action:hover,
-    .primary:hover,
-    .close:hover {
-      border-color: rgba(255, 255, 255, 0.24);
-      background: rgba(255, 255, 255, 0.1);
+    .condition span,
+    .condition strong {
+      display: block;
     }
 
-    .primary {
-      border-color: rgba(111, 174, 148, 0.35);
-      background: rgba(111, 174, 148, 0.13);
+    .condition span {
+      color: var(--muted);
+      font-size: 10.5px;
     }
 
-    button:disabled {
-      opacity: 0.42;
-      cursor: default;
+    .condition strong {
+      margin-top: 9px;
+      font: 630 19px/1 Consolas, monospace;
+      font-variant-numeric: tabular-nums;
     }
 
-    .waypoint-layout {
+    .vehicle-hero {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) 220px;
-      gap: 12px;
-      height: calc(100% - 64px);
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: end;
+      gap: 24px;
+      padding: 23px;
     }
 
-    .waypoint-main,
-    .waypoint-side {
-      min-height: 0;
-      border: 1px solid var(--line);
-      border-radius: 7px;
-      background: rgba(255, 255, 255, 0.018);
+    .vehicle-speed {
+      font: 650 60px/0.9 Consolas, monospace;
+      font-variant-numeric: tabular-nums;
     }
 
-    .waypoint-main {
+    .vehicle-speed small {
+      margin-left: 8px;
+      color: var(--muted);
+      font: 650 11px/1 "Segoe UI", sans-serif;
+    }
+
+    .vehicle-state {
+      max-width: 250px;
+      color: var(--muted);
+      font-size: 11.5px;
+      line-height: 1.6;
+      text-align: right;
+    }
+
+    .vehicle-actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+      padding: 0 15px 15px;
+    }
+
+    .waypoint-panel {
+      margin-bottom: 14px;
+    }
+
+    .waypoint-content {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 225px;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .waypoint-status {
       display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 26px;
+      align-items: flex-start;
+      gap: 13px;
     }
 
-    .waypoint-icon {
-      position: relative;
+    .waypoint-symbol {
       display: grid;
       place-items: center;
-      width: 52px;
-      height: 52px;
-      margin-bottom: 17px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.035);
-      color: var(--warning);
-      font-size: 22px;
+      flex: none;
+      width: 44px;
+      height: 44px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--faint);
     }
 
-    .waypoint-icon::after {
-      content: "";
-      position: absolute;
-      inset: 7px;
-      border: 1px solid currentColor;
-      border-radius: 50%;
-      opacity: 0.42;
+    .waypoint-status.active .waypoint-symbol {
+      border-color: rgba(212, 173, 112, 0.3);
+      background: rgba(212, 173, 112, 0.08);
+      color: var(--warm);
     }
 
-    .waypoint-state {
-      margin: 0 0 7px;
-      font-size: 21px;
+    .waypoint-status strong {
+      display: block;
+      margin-top: 2px;
+      font-size: 14px;
       font-weight: 650;
     }
 
-    .waypoint-copy {
-      max-width: 460px;
-      margin: 0;
+    .waypoint-status p {
+      max-width: 540px;
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 12px;
-      line-height: 1.65;
-    }
-
-    .waypoint-card.active .waypoint-icon {
-      color: var(--accent);
-      border-color: rgba(111, 174, 148, 0.38);
-      background: rgba(111, 174, 148, 0.09);
-    }
-
-    .waypoint-side {
-      display: flex;
-      flex-direction: column;
-      padding: 14px;
-    }
-
-    .side-label {
-      color: var(--muted);
-      font: 700 8px/1 Consolas, monospace;
-      text-transform: uppercase;
-    }
-
-    .coordinates {
-      margin: 12px 0;
-      padding: 10px;
-      border: 1px solid var(--line);
-      border-radius: 5px;
-      color: var(--text);
-      font: 11px/1.7 Consolas, monospace;
+      font-size: 10.5px;
+      line-height: 1.6;
     }
 
     .waypoint-actions {
       display: grid;
-      gap: 7px;
-      margin-top: auto;
+      align-content: center;
+      gap: 9px;
     }
 
-    .steps {
-      margin: 14px 0;
-      padding: 0;
-      list-style: none;
-      color: var(--muted);
-      font-size: 10px;
-      line-height: 1.55;
-    }
-
-    .steps li {
-      display: grid;
-      grid-template-columns: 18px 1fr;
-      gap: 7px;
-      margin-bottom: 6px;
-    }
-
-    .steps b {
-      display: grid;
-      place-items: center;
-      width: 18px;
-      height: 18px;
+    .coordinates {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      min-height: 32px;
+      padding: 0 10px;
       border: 1px solid var(--line);
+      border-radius: 5px;
+      color: var(--muted);
+      font: 10px/1 Consolas, monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .location-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .location-button {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-height: 50px;
+      padding: 0 13px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel-raised);
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .location-button svg {
+      flex: none;
+      color: var(--warm);
+    }
+
+    .location-button span {
+      overflow: hidden;
+      font-size: 10.5px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pending {
+      display: none;
+      align-items: center;
+      gap: 11px;
+      margin-bottom: 14px;
+      padding: 13px 15px;
+      border: 1px solid rgba(212, 173, 112, 0.22);
+      border-radius: 6px;
+      background: rgba(212, 173, 112, 0.07);
+      color: var(--warm);
+      font-size: 11px;
+    }
+
+    .pending.active {
+      display: flex;
+    }
+
+    .spinner {
+      width: 13px;
+      height: 13px;
+      border: 1px solid rgba(212, 173, 112, 0.25);
+      border-top-color: var(--warm);
       border-radius: 50%;
-      color: var(--accent);
-      font: 700 8px/1 Consolas, monospace;
+      animation: spin 750ms linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .option-group + .option-group {
+      margin-top: 12px;
+    }
+
+    .option-label {
+      margin: 0 0 9px;
+      color: var(--muted);
+      font-size: 10.5px;
+      font-weight: 600;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 7px;
+    }
+
+    .segment {
+      min-height: 41px;
+      padding: 0 11px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.025);
+      color: var(--muted);
+      font-size: 10.5px;
+      cursor: pointer;
+    }
+
+    .segment:hover {
+      border-color: var(--line-strong);
+      color: var(--text);
+    }
+
+    .segment.selected {
+      border-color: rgba(130, 181, 156, 0.32);
+      background: var(--accent-soft);
+      color: var(--text);
+    }
+
+    .about-block {
+      padding: 18px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .flow-step {
+      position: relative;
+      min-width: 0;
+      padding: 15px 13px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .flow-step span {
+      display: block;
+      color: var(--faint);
+      font: 700 9px/1 Consolas, monospace;
+    }
+
+    .flow-step strong {
+      display: block;
+      overflow: hidden;
+      margin-top: 9px;
+      font-size: 11.5px;
+      font-weight: 620;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .about-copy {
+      padding: 16px;
+    }
+
+    .about-copy h3 {
+      margin: 0;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .about-copy p {
+      margin: 9px 0 0;
+      color: var(--muted);
+      font-size: 10.5px;
+      line-height: 1.7;
+    }
+
+    .shortcut-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .shortcut {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      color: var(--muted);
+      font-size: 10.5px;
     }
 
     footer {
@@ -404,136 +1035,630 @@
       align-items: center;
       justify-content: space-between;
       gap: 18px;
-      padding: 11px 18px;
+      padding: 0 17px;
       border-top: 1px solid var(--line);
+      background: #0e1213;
     }
 
     .status {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 9px;
       color: var(--muted);
-      font-size: 11px;
+      font-size: 10.5px;
     }
 
-    .close {
-      padding: 7px 10px;
+    .status-dot {
+      flex: none;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .status span {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: none;
+      color: var(--faint);
+      font-size: 9.5px;
+    }
+
+    .close-button {
+      height: 31px;
+      padding: 0 11px;
       border: 1px solid var(--line);
-      border-radius: 6px;
+      border-radius: 5px;
       background: transparent;
       color: var(--text);
+      font-size: 10.5px;
       cursor: pointer;
     }
 
-    @media (max-width: 760px) {
-      .metrics {
-        display: none;
+    .close-button:hover {
+      border-color: var(--line-strong);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .i {
+      width: 17px;
+      height: 17px;
+      fill: none;
+      stroke: currentColor;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-width: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .shell {
+        width: calc(100vw - 28px);
+        height: calc(100vh - 28px);
       }
 
-      .layout {
-        grid-template-columns: 142px minmax(0, 1fr);
+      .app-grid {
+        grid-template-columns: 190px minmax(0, 1fr);
       }
 
-      .waypoint-layout {
+      main {
+      padding: 20px;
+      }
+
+      .dashboard-grid,
+      .split-grid {
         grid-template-columns: 1fr;
       }
 
-      .waypoint-side {
+      .status-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .location-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 680px) {
+      .shell {
+        min-height: 0;
+        grid-template-rows: 64px minmax(0, 1fr) 44px;
+      }
+
+      header {
+        padding: 0 12px;
+      }
+
+      .brand-copy small,
+      .clock,
+      .header-status .key {
+        display: none;
+      }
+
+      .app-grid {
+        grid-template-rows: auto minmax(0, 1fr);
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        display: flex;
+        flex-direction: row;
+        gap: 4px;
+        overflow-x: auto;
+        padding: 7px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .nav-label,
+      .nav-context,
+      .nav-item span {
+        display: none;
+      }
+
+      .nav-item {
+        justify-content: center;
+        flex: 0 0 43px;
+        width: 43px;
+        min-height: 36px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .nav-language-button {
+        justify-content: center;
+        flex: 0 0 auto;
+        width: auto;
+        min-width: 82px;
+        margin: 0;
+        padding: 0 10px;
+      }
+
+      main {
+        padding: 18px 15px 22px;
+      }
+
+      .page-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .waypoint-content {
+        grid-template-columns: 1fr;
+      }
+
+      .location-grid,
+      .quick-grid,
+      .vehicle-actions,
+      .about-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .telemetry,
+      .flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .segmented {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      footer {
+        padding: 0 11px;
+      }
+
+      .footer-actions > span {
         display: none;
       }
     }
   </style>
 </head>
 <body>
-  <section class="shell">
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <symbol id="i-grid" viewBox="0 0 24 24">
+      <rect x="3" y="3" width="7" height="7"></rect>
+      <rect x="14" y="3" width="7" height="7"></rect>
+      <rect x="3" y="14" width="7" height="7"></rect>
+      <rect x="14" y="14" width="7" height="7"></rect>
+    </symbol>
+    <symbol id="i-user" viewBox="0 0 24 24">
+      <circle cx="12" cy="8" r="3.5"></circle>
+      <path d="M5.5 20c.6-4 2.7-6 6.5-6s5.9 2 6.5 6"></path>
+    </symbol>
+    <symbol id="i-car" viewBox="0 0 24 24">
+      <path d="M5 16h14l-1.2-5.2a2 2 0 0 0-1.9-1.5H8.1a2 2 0 0 0-1.9 1.5z"></path>
+      <path d="M6 16v2M18 16v2M8 11l1-3h6l1 3"></path>
+    </symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24">
+      <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0z"></path>
+      <circle cx="12" cy="10" r="2.5"></circle>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+    </symbol>
+    <symbol id="i-info" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 11v6M12 7h.01"></path>
+    </symbol>
+    <symbol id="i-heart" viewBox="0 0 24 24">
+      <path d="M20 8.7c0 5.1-8 11.3-8 11.3S4 13.8 4 8.7A4.2 4.2 0 0 1 12 6a4.2 4.2 0 0 1 8 2.7z"></path>
+    </symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24">
+      <path d="M12 3 5 6v5c0 4.8 2.9 8.2 7 10 4.1-1.8 7-5.2 7-10V6z"></path>
+    </symbol>
+    <symbol id="i-target" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8"></circle>
+      <circle cx="12" cy="12" r="3"></circle>
+      <path d="M12 2v3M12 19v3M2 12h3M19 12h3"></path>
+    </symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24">
+      <path d="M4 17a8 8 0 1 1 16 0"></path>
+      <path d="m12 13 4-4M7 17h10"></path>
+    </symbol>
+    <symbol id="i-wrench" viewBox="0 0 24 24">
+      <path d="M14.5 6.5a4 4 0 0 0-5 5L4 17l3 3 5.5-5.5a4 4 0 0 0 5-5l-2.5 2.5-3-3z"></path>
+    </symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24">
+      <path d="m12 3 1.3 4.7L18 9l-4.7 1.3L12 15l-1.3-4.7L6 9l4.7-1.3z"></path>
+      <path d="m18.5 15 .7 2.3 2.3.7-2.3.7-.7 2.3-.7-2.3-2.3-.7 2.3-.7z"></path>
+    </symbol>
+    <symbol id="i-rotate" viewBox="0 0 24 24">
+      <path d="M20 11a8 8 0 1 0-2 5.5"></path>
+      <path d="M20 4v7h-7"></path>
+    </symbol>
+    <symbol id="i-clock" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M12 7v5l3 2"></path>
+    </symbol>
+    <symbol id="i-close" viewBox="0 0 24 24">
+      <path d="m6 6 12 12M18 6 6 18"></path>
+    </symbol>
+    <symbol id="i-language" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="9"></circle>
+      <path d="M3 12h18M12 3c2.5 2.5 3.8 5.5 3.8 9S14.5 18.5 12 21M12 3C9.5 5.5 8.2 8.5 8.2 12S9.5 18.5 12 21"></path>
+    </symbol>
+  </svg>
+
+  <section class="shell" aria-label="AsterUI Demo Console">
     <header>
-      <div class="identity">
-        <span class="mark">AU</span>
-        <div>
-          <h1>AsterUI Demo</h1>
-          <small>ASI plugin + live HTML interface</small>
+      <div class="brand">
+        <span class="brand-mark">AU</span>
+        <div class="brand-copy">
+          <h1>AsterUI Demo Console</h1>
+          <small>AsterUI.asi + local HTML bridge · GTA V Legacy</small>
         </div>
       </div>
-      <div class="metrics">
-        <div class="metric"><span>Health</span><strong id="health">--</strong></div>
-        <div class="metric"><span>Armor</span><strong id="armor">--</strong></div>
-        <div class="metric"><span>Wanted</span><strong id="wanted">--</strong></div>
+      <div class="header-status">
+        <span class="live-state"><i class="live-dot"></i><span data-i18n="bridgeLinked">Bridge linked</span></span>
+        <span class="clock" id="clock">--:--</span>
         <span class="key">F5</span>
+        <button class="icon-button" id="header-close" type="button" title="关闭界面" aria-label="关闭界面" data-i18n-title="closeInterface" data-i18n-aria="closeInterface">
+          <svg class="i"><use href="#i-close"></use></svg>
+        </button>
       </div>
     </header>
 
-    <div class="layout">
-      <nav>
-        <div class="nav-label">Demo pages</div>
-        <button class="nav-item active" type="button" data-view="player">玩家功能</button>
-        <button class="nav-item" type="button" data-view="navigation">路点传送</button>
+    <div class="app-grid">
+      <nav aria-label="Demo 页面" data-i18n-aria="navLabel">
+        <div class="nav-label">Demo workspace</div>
+        <button class="nav-item active" type="button" data-view="overview">
+          <svg class="i"><use href="#i-grid"></use></svg><span data-i18n="navOverview">总览</span>
+        </button>
+        <button class="nav-item" type="button" data-view="player">
+          <svg class="i"><use href="#i-user"></use></svg><span data-i18n="navPlayer">玩家</span>
+        </button>
+        <button class="nav-item" type="button" data-view="vehicle">
+          <svg class="i"><use href="#i-car"></use></svg><span data-i18n="navVehicle">车辆</span>
+        </button>
+        <button class="nav-item" type="button" data-view="teleport">
+          <svg class="i"><use href="#i-pin"></use></svg><span data-i18n="navTeleport">传送</span>
+        </button>
+        <button class="nav-item" type="button" data-view="world">
+          <svg class="i"><use href="#i-sun"></use></svg><span data-i18n="navWorld">环境</span>
+        </button>
+        <button class="nav-item" type="button" data-view="about">
+          <svg class="i"><use href="#i-info"></use></svg><span data-i18n="navAbout">说明</span>
+        </button>
+        <div class="nav-context">
+          <strong data-i18n="navContextTitle">Legacy · Story Mode</strong>
+          <span data-i18n="navContextCopy">Demo plugin only</span>
+        </div>
+        <button class="language-button nav-language-button" id="language-toggle" type="button" aria-label="切换到英文">
+          <svg class="i"><use href="#i-language"></use></svg>
+          <span id="language-toggle-label">English</span>
+        </button>
       </nav>
 
       <main>
-        <section class="view active" id="view-player">
-          <h2>玩家功能</h2>
-          <p class="lead">从 HTML 页面调用游戏原生功能，插件负责状态同步和执行。</p>
-          <div class="rows">
-            <div class="row">
-              <span>
-                <strong>无敌模式</strong>
-                <small>实时切换玩家无敌状态。</small>
-              </span>
-              <button class="switch" id="invincible" type="button" role="switch" aria-checked="false" aria-label="无敌模式"></button>
+        <section class="view active" id="view-overview">
+          <div class="page-head">
+            <div>
+              <p class="eyebrow">Live overview</p>
+              <h2 data-i18n="overviewTitle">你的游戏状态</h2>
+              <p class="page-description" data-i18n="overviewDescription">页面负责显示和发送操作，插件负责读取游戏状态与执行 Native。打开界面后游戏控制会被锁定，关闭后立即恢复。</p>
             </div>
-            <div class="row">
-              <span>
-                <strong>恢复状态</strong>
-                <small>恢复生命值和满护甲。</small>
-              </span>
-              <button class="action" id="heal" type="button">恢复</button>
+            <button class="action-button primary" type="button" data-command="heal">
+              <svg class="i"><use href="#i-heart"></use></svg><span data-i18n="restorePlayer">恢复状态</span>
+            </button>
+          </div>
+
+          <div class="status-grid">
+            <div class="metric">
+              <div class="metric-head"><span data-i18n="health">生命值</span><svg class="i"><use href="#i-heart"></use></svg></div>
+              <strong class="metric-value" id="health">--</strong>
+              <span class="metric-note" data-i18n="maxHealth">最大 200</span>
+              <div class="bar"><i id="health-bar"></i></div>
             </div>
-            <div class="row">
-              <span>
-                <strong>清除通缉</strong>
-                <small>立即清除当前通缉星级。</small>
-              </span>
-              <button class="action" id="clear-wanted" type="button">清除</button>
+            <div class="metric">
+              <div class="metric-head"><span data-i18n="armor">护甲</span><svg class="i"><use href="#i-shield"></use></svg></div>
+              <strong class="metric-value" id="armor">--</strong>
+              <span class="metric-note" data-i18n="maxArmor">最大 100</span>
+              <div class="bar warm"><i id="armor-bar"></i></div>
             </div>
-            <div class="row">
-              <span>
-                <strong>维修当前车辆</strong>
-                <small>修复车身并清除车辆污渍。</small>
-              </span>
-              <button class="action" id="repair" type="button">维修</button>
+            <div class="metric">
+              <div class="metric-head"><span data-i18n="wantedLevel">通缉星级</span><svg class="i"><use href="#i-target"></use></svg></div>
+              <strong class="metric-value" id="wanted">--</strong>
+              <span class="metric-note" id="wanted-note">当前通缉状态</span>
             </div>
+            <div class="metric">
+              <div class="metric-head"><span data-i18n="movementSpeed">移动速度</span><svg class="i"><use href="#i-gauge"></use></svg></div>
+              <strong class="metric-value" id="speed">--</strong>
+              <span class="metric-note" id="speed-note">km/h</span>
+              <div class="bar"><i id="speed-bar"></i></div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel">
+              <div class="panel-head"><h3 data-i18n="quickActions">快捷操作</h3><span>Common commands</span></div>
+              <div class="panel-body">
+                <div class="quick-grid">
+                  <button class="action-button" type="button" data-command="clear_wanted">
+                    <svg class="i"><use href="#i-target"></use></svg><span data-i18n="clearWanted">清除通缉</span>
+                  </button>
+                  <button class="action-button" type="button" data-command="repair_vehicle" data-requires-vehicle>
+                    <svg class="i"><use href="#i-wrench"></use></svg><span data-i18n="repairVehicle">维修车辆</span>
+                  </button>
+                  <button class="action-button" type="button" data-command="teleport_waypoint" data-requires-waypoint>
+                    <svg class="i"><use href="#i-pin"></use></svg><span data-i18n="goToWaypoint">前往路点</span>
+                  </button>
+                  <button class="action-button" type="button" data-command="set_time" data-hour="12">
+                    <svg class="i"><use href="#i-sun"></use></svg><span data-i18n="setNoon">设为正午</span>
+                  </button>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head"><h3 data-i18n="activityLog">操作记录</h3><span>Activity</span></div>
+              <div class="panel-body">
+                <div class="activity-list" id="activity-list">
+                  <div class="activity" id="initial-activity"><span data-i18n="waitingState">等待插件状态</span><time>--:--</time></div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <div class="telemetry">
+            <div><span data-i18n="positionX">Position X</span><strong id="coord-x">--</strong></div>
+            <div><span data-i18n="positionY">Position Y</span><strong id="coord-y">--</strong></div>
+            <div><span data-i18n="positionZ">Position Z</span><strong id="coord-z">--</strong></div>
+            <div><span data-i18n="worldTime">World time</span><strong id="world-time">--:--</strong></div>
           </div>
         </section>
 
-        <section class="view" id="view-navigation">
-          <h2>路点传送</h2>
-          <p class="lead">读取 GTA V 地图中设置的导航点，不经过网页地图。</p>
-          <div class="waypoint-layout">
-            <div class="waypoint-main" id="waypoint-card">
-              <span class="waypoint-icon" aria-hidden="true">◎</span>
-              <h3 class="waypoint-state" id="waypoint-state">未设置导航点</h3>
-              <p class="waypoint-copy" id="waypoint-copy">
-                关闭界面后，在 GTA V 自己的地图上用右键设置一个导航点，再按 F5 返回这里。
-              </p>
+        <section class="view" id="view-player">
+          <div class="page-head">
+            <div>
+              <p class="eyebrow">Player controls</p>
+              <h2 data-i18n="playerTitle">玩家状态与恢复</h2>
+              <p class="page-description" data-i18n="playerDescription">这里演示开关、即时命令和状态回传三种最常见的 UI 通讯方式。</p>
             </div>
-            <aside class="waypoint-side">
-              <span class="side-label">Active Waypoint</span>
-              <div class="coordinates" id="waypoint-coordinates">X --<br>Y --</div>
-              <ol class="steps">
-                <li><b>1</b><span>打开 GTA V 地图并设置路点</span></li>
-                <li><b>2</b><span>按 F5 返回 AsterUI Demo</span></li>
-                <li><b>3</b><span>点击传送到导航点</span></li>
-              </ol>
-              <div class="waypoint-actions">
-                <button class="action" id="refresh-waypoint" type="button">刷新导航点</button>
-                <button class="primary" id="teleport-waypoint" type="button" disabled>传送到导航点</button>
+          </div>
+
+          <div class="split-grid">
+            <section class="panel">
+              <div class="panel-head"><h3 data-i18n="availableActions">可用操作</h3><span>Native actions</span></div>
+              <div class="list">
+                <div class="list-row">
+                  <div class="list-copy">
+                    <span class="list-icon"><svg class="i"><use href="#i-shield"></use></svg></span>
+                    <span><strong data-i18n="invincible">无敌模式</strong><small data-i18n="invincibleDescription">切换玩家是否受到伤害。</small></span>
+                  </div>
+                  <button class="switch" id="invincible" type="button" role="switch" aria-checked="false" aria-label="无敌模式" data-i18n-aria="invincible"></button>
+                </div>
+                <div class="list-row">
+                  <div class="list-copy">
+                    <span class="list-icon"><svg class="i"><use href="#i-heart"></use></svg></span>
+                    <span><strong data-i18n="restorePlayer">恢复状态</strong><small data-i18n="restoreDescription">生命值恢复至 200，护甲补满。</small></span>
+                  </div>
+                  <button class="compact-button" type="button" data-command="heal" data-i18n="execute">执行</button>
+                </div>
+                <div class="list-row">
+                  <div class="list-copy">
+                    <span class="list-icon"><svg class="i"><use href="#i-target"></use></svg></span>
+                    <span><strong data-i18n="clearWanted">清除通缉</strong><small data-i18n="clearWantedDescription">立即清除当前通缉等级。</small></span>
+                  </div>
+                  <button class="compact-button" type="button" data-command="clear_wanted" data-i18n="execute">执行</button>
+                </div>
               </div>
-            </aside>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head"><h3 data-i18n="currentState">当前状态</h3><span>Read only</span></div>
+              <div class="condition">
+                <div><span data-i18n="healthShort">生命</span><strong id="player-health">--</strong></div>
+                <div><span data-i18n="armorShort">护甲</span><strong id="player-armor">--</strong></div>
+                <div><span data-i18n="wantedShort">通缉</span><strong id="player-wanted">--</strong></div>
+              </div>
+              <div class="list">
+                <div class="list-row">
+                  <div class="list-copy">
+                    <span class="list-icon"><svg class="i"><use href="#i-grid"></use></svg></span>
+                    <span><strong data-i18n="coordinates">坐标</strong><small id="player-coordinates">X -- · Y -- · Z --</small></span>
+                  </div>
+                </div>
+                <div class="list-row">
+                  <div class="list-copy">
+                    <span class="list-icon"><svg class="i"><use href="#i-clock"></use></svg></span>
+                    <span><strong data-i18n="gameTime">游戏时间</strong><small id="player-world-time">--:--</small></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="view-vehicle">
+          <div class="page-head">
+            <div>
+              <p class="eyebrow">Vehicle controls</p>
+              <h2 data-i18n="vehicleTitle">当前载具</h2>
+              <p class="page-description" data-i18n="vehicleDescription">车辆相关按钮由游戏状态动态启用。没有驾驶载具时，页面不会静默执行无效命令。</p>
+            </div>
+          </div>
+
+          <section class="panel">
+            <div class="vehicle-hero">
+              <div>
+                <span class="eyebrow">Current speed</span>
+                <div class="vehicle-speed"><span id="vehicle-speed">0</span><small>km/h</small></div>
+              </div>
+              <div class="vehicle-state" id="vehicle-state">未检测到载具</div>
+            </div>
+            <div class="vehicle-actions">
+              <button class="action-button primary" type="button" data-command="repair_vehicle" data-requires-vehicle>
+                <svg class="i"><use href="#i-wrench"></use></svg><span data-i18n="repairAndClean">维修并清洁</span>
+              </button>
+              <button class="action-button" type="button" data-command="clean_vehicle" data-requires-vehicle>
+                <svg class="i"><use href="#i-spark"></use></svg><span data-i18n="cleanOnly">仅清洁车身</span>
+              </button>
+              <button class="action-button" type="button" data-command="flip_vehicle" data-requires-vehicle>
+                <svg class="i"><use href="#i-rotate"></use></svg><span data-i18n="flipVehicle">翻正车辆</span>
+              </button>
+              <button class="action-button danger" type="button" data-command="stop_vehicle" data-requires-vehicle>
+                <svg class="i"><use href="#i-target"></use></svg><span data-i18n="stopVehicle">立即停车</span>
+              </button>
+            </div>
+          </section>
+
+          <div class="telemetry">
+            <div><span data-i18n="vehicleHealth">Vehicle health</span><strong id="vehicle-health">--</strong></div>
+            <div><span data-i18n="vehicleState">Vehicle state</span><strong id="vehicle-detected">No</strong></div>
+            <div><span data-i18n="speed">Speed</span><strong id="vehicle-telemetry-speed">0 km/h</strong></div>
+            <div><span data-i18n="inputLock">Input lock</span><strong data-i18n="enabled">Enabled</strong></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-teleport">
+          <div class="page-head">
+            <div>
+              <p class="eyebrow">World navigation</p>
+              <h2 data-i18n="teleportTitle">路点与地点传送</h2>
+              <p class="page-description" data-i18n="teleportDescription">传送会先请求目标碰撞，再解析真实地面高度。地面未准备好时会明确提示，不会把玩家放到高空等待掉落。</p>
+            </div>
+          </div>
+
+          <div class="pending" id="teleport-pending">
+            <i class="spinner"></i>
+            <span id="teleport-pending-text">正在加载目标地面...</span>
+          </div>
+
+          <section class="panel waypoint-panel">
+            <div class="panel-head"><h3 data-i18n="gtaWaypoint">GTA 地图路点</h3><span>Waypoint</span></div>
+            <div class="waypoint-content">
+              <div class="waypoint-status" id="waypoint-status">
+                <span class="waypoint-symbol"><svg class="i"><use href="#i-pin"></use></svg></span>
+                <div>
+                  <strong id="waypoint-title">未检测到导航点</strong>
+                  <p id="waypoint-copy">关闭界面，在 GTA V 地图上设置一个导航点，然后再按 F5 返回。</p>
+                </div>
+              </div>
+              <div class="waypoint-actions">
+                <div class="coordinates">
+                  <span>WAYPOINT</span>
+                  <span id="waypoint-coordinates">X -- · Y --</span>
+                </div>
+                <button class="compact-button" type="button" data-command="request_state" data-i18n="refreshState">刷新状态</button>
+                <button class="action-button primary" type="button" id="teleport-waypoint" disabled>
+                  <svg class="i"><use href="#i-pin"></use></svg><span data-i18n="teleportToWaypoint">传送到导航点</span>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head"><h3 data-i18n="popularDestinations">常用地点</h3><span>Direct destinations</span></div>
+            <div class="panel-body">
+              <div class="location-grid">
+                <button class="location-button" type="button" data-location="legion"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationLegion">军团广场</span></button>
+                <button class="location-button" type="button" data-location="airport"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationAirport">洛圣都国际机场</span></button>
+                <button class="location-button" type="button" data-location="vespucci"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationVespucci">威斯普奇海滩</span></button>
+                <button class="location-button" type="button" data-location="casino"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationCasino">名钻赌场</span></button>
+                <button class="location-button" type="button" data-location="sandy"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationSandy">沙滩海岸</span></button>
+                <button class="location-button" type="button" data-location="paleto"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationPaleto">佩里托湾</span></button>
+                <button class="location-button" type="button" data-location="chiliad"><svg class="i"><use href="#i-pin"></use></svg><span data-i18n="locationChiliad">奇力耶德山</span></button>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="view" id="view-world">
+          <div class="page-head">
+            <div>
+              <p class="eyebrow">World environment</p>
+              <h2 data-i18n="worldTitle">时间与天气</h2>
+              <p class="page-description" data-i18n="worldDescription">这些示例命令用于展示离散选项组。选中状态由页面维护，实际游戏状态仍由插件和 Native 决定。</p>
+            </div>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head"><h3 data-i18n="worldControls">环境控制</h3><span>World state</span></div>
+            <div class="panel-body">
+              <div class="option-group">
+                <p class="option-label" data-i18n="timeLabel">时间</p>
+                <div class="segmented">
+                  <button class="segment" type="button" data-time="6" data-i18n="timeMorning">清晨 · 06:00</button>
+                  <button class="segment selected" type="button" data-time="12" data-i18n="timeNoon">正午 · 12:00</button>
+                  <button class="segment" type="button" data-time="18" data-i18n="timeSunset">傍晚 · 18:00</button>
+                  <button class="segment" type="button" data-time="23" data-i18n="timeNight">深夜 · 23:00</button>
+                </div>
+              </div>
+              <div class="option-group">
+                <p class="option-label" data-i18n="weatherLabel">天气</p>
+                <div class="segmented">
+                  <button class="segment selected" type="button" data-weather="clear" data-i18n="weatherClear">晴朗</button>
+                  <button class="segment" type="button" data-weather="clouds" data-i18n="weatherClouds">多云</button>
+                  <button class="segment" type="button" data-weather="rain" data-i18n="weatherRain">降雨</button>
+                  <button class="segment" type="button" data-weather="fog" data-i18n="weatherFog">雾天</button>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="telemetry">
+            <div><span data-i18n="worldTime">World time</span><strong id="environment-time">--:--</strong></div>
+            <div><span data-i18n="mode">Mode</span><strong data-i18n="story">Story</strong></div>
+            <div><span data-i18n="edition">Edition</span><strong>Legacy</strong></div>
+            <div><span data-i18n="platform">Platform</span><strong>Windows x64</strong></div>
+          </div>
+        </section>
+
+        <section class="view" id="view-about">
+          <div class="page-head">
+            <div>
+              <p class="eyebrow">Architecture</p>
+              <h2 data-i18n="aboutTitle">说明：插件如何工作</h2>
+              <p class="page-description" data-i18n="aboutDescription">插件负责加载 AsterUI 页面、接收页面事件并执行游戏功能。AsterUI 只负责浏览器、共享帧、输入和事件桥接，页面不直接执行游戏代码。</p>
+            </div>
+          </div>
+
+          <section class="panel">
+            <div class="about-block">
+              <div class="flow">
+                <div class="flow-step"><span>01 · HTML</span><strong data-i18n="flowUser">用户操作</strong></div>
+                <div class="flow-step"><span>02 · Bridge</span><strong data-i18n="flowJson">JSON 事件</strong></div>
+                <div class="flow-step"><span>03 · ASI</span><strong data-i18n="flowPlugin">插件逻辑</strong></div>
+                <div class="flow-step"><span>04 · GTA V</span><strong data-i18n="flowNative">Native 执行</strong></div>
+              </div>
+            </div>
+          </section>
+
+          <div class="about-grid">
+            <section class="panel about-copy">
+              <h3 data-i18n="scopeTitle">支持范围</h3>
+              <p data-i18n="scopeDescription">GTA V PC 传承版、Windows x64、单机剧情模式。不支持 Enhanced、FiveM、RedM 或 GTA Online。发布包不包含游戏和 ScriptHookV 文件。</p>
+              <div class="shortcut-list">
+                <div class="shortcut"><span data-i18n="shortcutToggle">显示或关闭界面</span><span class="key">F5</span></div>
+                <div class="shortcut"><span data-i18n="shortcutClose">关闭界面</span><span class="key">Esc</span></div>
+                <div class="shortcut"><span data-i18n="shortcutLock">界面打开时锁定游戏控制</span><span class="key">AUTO</span></div>
+              </div>
+            </section>
+            <section class="panel about-copy">
+              <h3 data-i18n="boundaryTitle">插件边界</h3>
+              <p data-i18n="boundaryDescription">AsterUI.Demo.asi 是公开 Demo 插件，仅用于验证 UI 通讯、输入和状态同步。它不是完整修改器，也不替代菜单、任务或载具插件。实际项目的业务逻辑应放在自己的 ASI 或 RPH 插件中。</p>
+              <p data-i18n="boundaryLocal">页面全部资源均为本地文件，不使用 CDN、远程字体或网络请求。</p>
+            </section>
           </div>
         </section>
       </main>
     </div>
 
     <footer>
-      <span class="status" id="status">Waiting for plugin state</span>
-      <button class="close" id="close" type="button">关闭界面</button>
+      <div class="status"><i class="status-dot"></i><span id="status" data-i18n="waitingPlugin">等待插件状态</span></div>
+      <div class="footer-actions">
+        <span id="footer-hint" data-i18n="footerHint">F5 / Esc 关闭</span>
+        <button class="close-button" id="footer-close" type="button" data-i18n="closeInterface">关闭界面</button>
+      </div>
     </footer>
   </section>
 
@@ -542,17 +1667,404 @@
     (function () {
       "use strict";
 
-      var status = document.getElementById("status");
-      var invincible = document.getElementById("invincible");
-      var health = document.getElementById("health");
-      var armor = document.getElementById("armor");
-      var wanted = document.getElementById("wanted");
-      var waypointCard = document.getElementById("waypoint-card");
-      var waypointState = document.getElementById("waypoint-state");
-      var waypointCopy = document.getElementById("waypoint-copy");
-      var waypointCoordinates = document.getElementById("waypoint-coordinates");
+      var translations = {
+        zh: {
+          bridgeLinked: "桥接已连接",
+          navLabel: "Demo 页面",
+          navOverview: "总览",
+          navPlayer: "玩家",
+          navVehicle: "车辆",
+          navTeleport: "传送",
+          navWorld: "环境",
+          navAbout: "说明",
+          navContextTitle: "传承版 · 剧情模式",
+          navContextCopy: "仅作为 Demo 插件",
+          overviewTitle: "你的游戏状态",
+          overviewDescription: "页面负责显示和发送操作，插件负责读取游戏状态与执行 Native。打开界面后游戏控制会被锁定，关闭后立即恢复。",
+          restorePlayer: "恢复状态",
+          health: "生命值",
+          maxHealth: "最大 200",
+          armor: "护甲",
+          maxArmor: "最大 100",
+          wantedLevel: "通缉星级",
+          movementSpeed: "移动速度",
+          quickActions: "快捷操作",
+          clearWanted: "清除通缉",
+          repairVehicle: "维修车辆",
+          goToWaypoint: "前往路点",
+          setNoon: "设为正午",
+          activityLog: "操作记录",
+          waitingState: "等待插件状态",
+          positionX: "坐标 X",
+          positionY: "坐标 Y",
+          positionZ: "坐标 Z",
+          worldTime: "游戏时间",
+          playerTitle: "玩家状态与恢复",
+          playerDescription: "这里演示开关、即时命令和状态回传三种最常见的 UI 通讯方式。",
+          availableActions: "可用操作",
+          invincible: "无敌模式",
+          invincibleDescription: "切换玩家是否受到伤害。",
+          restoreDescription: "生命值恢复至 200，护甲补满。",
+          execute: "执行",
+          clearWantedDescription: "立即清除当前通缉等级。",
+          currentState: "当前状态",
+          healthShort: "生命",
+          armorShort: "护甲",
+          wantedShort: "通缉",
+          coordinates: "坐标",
+          gameTime: "游戏时间",
+          vehicleTitle: "当前载具",
+          vehicleDescription: "车辆相关按钮由游戏状态动态启用。没有驾驶载具时，页面不会静默执行无效命令。",
+          repairAndClean: "维修并清洁",
+          cleanOnly: "仅清洁车身",
+          flipVehicle: "翻正车辆",
+          stopVehicle: "立即停车",
+          vehicleHealth: "载具生命",
+          vehicleState: "载具状态",
+          speed: "速度",
+          inputLock: "输入锁定",
+          enabled: "已启用",
+          teleportTitle: "路点与地点传送",
+          teleportDescription: "传送会先请求目标碰撞，再解析真实地面高度。地面未准备好时会明确提示，不会把玩家放到高空等待掉落。",
+          gtaWaypoint: "GTA 地图路点",
+          refreshState: "刷新状态",
+          teleportToWaypoint: "传送到导航点",
+          popularDestinations: "常用地点",
+          locationLegion: "军团广场",
+          locationAirport: "洛圣都国际机场",
+          locationVespucci: "威斯普奇海滩",
+          locationCasino: "名钻赌场",
+          locationSandy: "沙滩海岸",
+          locationPaleto: "佩里托湾",
+          locationChiliad: "奇力耶德山",
+          worldTitle: "时间与天气",
+          worldDescription: "这些示例命令用于展示离散选项组。选中状态由页面维护，实际游戏状态仍由插件和 Native 决定。",
+          worldControls: "环境控制",
+          timeLabel: "时间",
+          timeMorning: "清晨 · 06:00",
+          timeNoon: "正午 · 12:00",
+          timeSunset: "傍晚 · 18:00",
+          timeNight: "深夜 · 23:00",
+          weatherLabel: "天气",
+          weatherClear: "晴朗",
+          weatherClouds: "多云",
+          weatherRain: "降雨",
+          weatherFog: "雾天",
+          mode: "模式",
+          story: "剧情",
+          edition: "版本",
+          platform: "平台",
+          aboutTitle: "说明：插件如何工作",
+          aboutDescription: "插件负责加载 AsterUI 页面、接收页面事件并执行游戏功能。AsterUI 只负责浏览器、共享帧、输入和事件桥接，页面不直接执行游戏代码。",
+          flowUser: "用户操作",
+          flowJson: "JSON 事件",
+          flowPlugin: "插件逻辑",
+          flowNative: "Native 执行",
+          scopeTitle: "支持范围",
+          scopeDescription: "GTA V PC 传承版、Windows x64、单机剧情模式。不支持 Enhanced、FiveM、RedM 或 GTA Online。发布包不包含游戏和 ScriptHookV 文件。",
+          shortcutToggle: "显示或关闭界面",
+          shortcutClose: "关闭界面",
+          shortcutLock: "界面打开时锁定游戏控制",
+          boundaryTitle: "插件边界",
+          boundaryDescription: "AsterUI.Demo.asi 是公开 Demo 插件，仅用于验证 UI 通讯、输入和状态同步。它不是完整修改器，也不替代菜单、任务或载具插件。实际项目的业务逻辑应放在自己的 ASI 或 RPH 插件中。",
+          boundaryLocal: "页面全部资源均为本地文件，不使用 CDN、远程字体或网络请求。",
+          footerHint: "F5 / Esc 关闭",
+          closeInterface: "关闭界面",
+          waitingPlugin: "等待插件状态",
+          closing: "正在关闭界面...",
+          noWanted: "当前无通缉",
+          wantedStars: "{n} 星通缉",
+          vehicleSpeedNote: "当前载具 km/h",
+          playerSpeedNote: "玩家移动 km/h",
+          yes: "是",
+          no: "否",
+          vehiclePresent: "已检测到载具。操作会直接作用于当前驾驶的车辆。",
+          vehicleMissing: "未检测到载具。进入车辆后，相关按钮会自动启用。",
+          waypointPresent: "已检测到 GTA 路点",
+          waypointMissing: "未检测到导航点",
+          waypointPresentCopy: "目标来自 GTA V 地图。点击传送后，插件会加载碰撞并查找真实地面。",
+          waypointMissingCopy: "关闭界面，在 GTA V 地图上设置一个导航点，然后再按 F5 返回。",
+          loadingGround: "正在加载 {label} 的地面...",
+          targetLocation: "目标地点",
+          languageSwitch: "切换到英文",
+          languageButton: "English"
+        },
+        en: {
+          bridgeLinked: "Bridge linked",
+          navLabel: "Demo pages",
+          navOverview: "Overview",
+          navPlayer: "Player",
+          navVehicle: "Vehicle",
+          navTeleport: "Teleport",
+          navWorld: "World",
+          navAbout: "Guide",
+          navContextTitle: "Legacy · Story Mode",
+          navContextCopy: "Demo plugin only",
+          overviewTitle: "Your game state",
+          overviewDescription: "The page displays state and sends commands. The plugin reads game data and executes natives. Game controls are locked while this interface is open and restored on close.",
+          restorePlayer: "Restore player",
+          health: "Health",
+          maxHealth: "Maximum 200",
+          armor: "Armor",
+          maxArmor: "Maximum 100",
+          wantedLevel: "Wanted level",
+          movementSpeed: "Movement speed",
+          quickActions: "Quick actions",
+          clearWanted: "Clear wanted",
+          repairVehicle: "Repair vehicle",
+          goToWaypoint: "Go to waypoint",
+          setNoon: "Set to noon",
+          activityLog: "Activity log",
+          waitingState: "Waiting for plugin state",
+          positionX: "Position X",
+          positionY: "Position Y",
+          positionZ: "Position Z",
+          worldTime: "World time",
+          playerTitle: "Player state and recovery",
+          playerDescription: "This page demonstrates switches, immediate commands, and state callbacks, the three most common UI bridge patterns.",
+          availableActions: "Available actions",
+          invincible: "Invincible mode",
+          invincibleDescription: "Toggle whether the player can take damage.",
+          restoreDescription: "Restore health to 200 and fill armor.",
+          execute: "Run",
+          clearWantedDescription: "Immediately clear the current wanted level.",
+          currentState: "Current state",
+          healthShort: "Health",
+          armorShort: "Armor",
+          wantedShort: "Wanted",
+          coordinates: "Coordinates",
+          gameTime: "Game time",
+          vehicleTitle: "Current vehicle",
+          vehicleDescription: "Vehicle actions are enabled from live game state. The page will not silently run invalid commands when no vehicle is active.",
+          repairAndClean: "Repair and clean",
+          cleanOnly: "Clean body only",
+          flipVehicle: "Right vehicle",
+          stopVehicle: "Stop vehicle",
+          vehicleHealth: "Vehicle health",
+          vehicleState: "Vehicle state",
+          speed: "Speed",
+          inputLock: "Input lock",
+          enabled: "Enabled",
+          teleportTitle: "Waypoint and destination teleport",
+          teleportDescription: "Teleport requests target collision first, then resolves real ground height. If the ground is not ready, the page reports it instead of dropping the player from the sky.",
+          gtaWaypoint: "GTA map waypoint",
+          refreshState: "Refresh state",
+          teleportToWaypoint: "Teleport to waypoint",
+          popularDestinations: "Popular destinations",
+          locationLegion: "Legion Square",
+          locationAirport: "LS International Airport",
+          locationVespucci: "Vespucci Beach",
+          locationCasino: "Diamond Casino",
+          locationSandy: "Sandy Shores",
+          locationPaleto: "Paleto Bay",
+          locationChiliad: "Mount Chiliad",
+          worldTitle: "Time and weather",
+          worldDescription: "These sample commands demonstrate discrete option groups. The page tracks selection while the plugin and game natives remain authoritative.",
+          worldControls: "World controls",
+          timeLabel: "Time",
+          timeMorning: "Morning · 06:00",
+          timeNoon: "Noon · 12:00",
+          timeSunset: "Evening · 18:00",
+          timeNight: "Night · 23:00",
+          weatherLabel: "Weather",
+          weatherClear: "Clear",
+          weatherClouds: "Cloudy",
+          weatherRain: "Rain",
+          weatherFog: "Fog",
+          mode: "Mode",
+          story: "Story",
+          edition: "Edition",
+          platform: "Platform",
+          aboutTitle: "Guide: how plugins work",
+          aboutDescription: "Plugins host AsterUI pages, receive page events, and execute game features. AsterUI only owns the browser, shared frames, input, and event bridge; pages never execute game code directly.",
+          flowUser: "User action",
+          flowJson: "JSON event",
+          flowPlugin: "Plugin logic",
+          flowNative: "Native execution",
+          scopeTitle: "Supported scope",
+          scopeDescription: "GTA V PC Legacy Edition, Windows x64, Story Mode only. Enhanced, FiveM, RedM, and GTA Online are not supported. The release does not include game or ScriptHookV files.",
+          shortcutToggle: "Show or close interface",
+          shortcutClose: "Close interface",
+          shortcutLock: "Game controls locked while open",
+          boundaryTitle: "Plugin boundary",
+          boundaryDescription: "AsterUI.Demo.asi is the public demo plugin and only validates UI messaging, input, and state synchronization. It is not a complete trainer and does not replace menu, mission, or vehicle plugins. Real projects belong in your own ASI or RPH plugin.",
+          boundaryLocal: "Every page resource is local. The page uses no CDN, remote font, or network request.",
+          footerHint: "F5 / Esc to close",
+          closeInterface: "Close interface",
+          waitingPlugin: "Waiting for plugin state",
+          closing: "Closing interface...",
+          noWanted: "No wanted level",
+          wantedStars: "{n} stars wanted",
+          vehicleSpeedNote: "Current vehicle km/h",
+          playerSpeedNote: "Player movement km/h",
+          yes: "Yes",
+          no: "No",
+          vehiclePresent: "Vehicle detected. Actions apply directly to the vehicle you are driving.",
+          vehicleMissing: "No vehicle detected. Vehicle actions become available after entering one.",
+          waypointPresent: "GTA waypoint detected",
+          waypointMissing: "No waypoint detected",
+          waypointPresentCopy: "The target comes from the GTA V map. Teleport loads collision and resolves real ground height.",
+          waypointMissingCopy: "Close the interface, set a waypoint on the GTA V map, then press F5 to return.",
+          loadingGround: "Loading ground at {label}...",
+          targetLocation: "target destination",
+          languageSwitch: "Switch to Chinese",
+          languageButton: "中文"
+        }
+      };
+
+      var pluginMessages = {
+        zh: {
+          "Demo opened": "Demo 已打开",
+          "Demo closed": "Demo 已关闭",
+          "Invincibility enabled": "无敌模式已开启",
+          "Invincibility disabled": "无敌模式已关闭",
+          "Health and armor restored": "生命值和护甲已恢复",
+          "Wanted level cleared": "通缉已清除",
+          "No current vehicle": "当前没有载具",
+          "Vehicle repaired": "载具已维修",
+          "Vehicle cleaned": "载具已清洁",
+          "Vehicle stopped": "载具已停止",
+          "Vehicle righted": "载具已翻正",
+          "Teleported to GTA map waypoint": "已传送到 GTA 地图路点",
+          "Teleport failed: no waypoint or ground": "传送失败：没有路点或可用地面",
+          "Teleported to destination": "已传送到目标地点",
+          "Teleport failed: no ground at destination": "传送失败：目标地点没有可用地面",
+          "Loading ground at map waypoint": "正在加载地图路点的地面",
+          "No GTA map waypoint is active": "GTA 地图上没有活动路点",
+          "Loading destination ground": "正在加载目标地点的地面",
+          "Unknown teleport destination": "未知的传送地点",
+          "World time updated": "游戏时间已更新",
+          "Weather set to clear": "天气已设为晴朗",
+          "Weather set to cloudy": "天气已设为多云",
+          "Weather set to rain": "天气已设为降雨",
+          "Weather set to fog": "天气已设为雾天",
+          "Unknown weather": "未知天气",
+          "Unknown demo command": "未知 Demo 命令",
+          "Invalid command payload": "命令数据格式无效",
+          "Browser preview state": "浏览器预览状态",
+          "Teleport failed: destination did not load": "传送失败：目标区域未加载",
+          "Teleport failed: no ground at destination": "传送失败：目标地点没有可用地面"
+        },
+        en: {}
+      };
+
+      var locationNames = {
+        zh: {
+          "Legion Square": "军团广场",
+          "LS International Airport": "洛圣都国际机场",
+          "Vespucci Beach": "威斯普奇海滩",
+          "Diamond Casino": "名钻赌场",
+          "Sandy Shores": "沙滩海岸",
+          "Paleto Bay": "佩里托湾",
+          "Mount Chiliad": "奇力耶德山",
+          "GTA map waypoint": "GTA 地图路点"
+        },
+        en: {}
+      };
+
+      var state = {
+        invincible: false,
+        health: 0,
+        armor: 0,
+        wanted: 0,
+        inVehicle: false,
+        vehicleHealth: 0,
+        speedKph: 0,
+        x: 0,
+        y: 0,
+        z: 0,
+        hour: 0,
+        minute: 0,
+        waypointActive: false,
+        waypointX: 0,
+        waypointY: 0,
+        teleportPending: false,
+        teleportLabel: ""
+      };
+
+      var activityList = document.getElementById("activity-list");
+      var invincibleSwitch = document.getElementById("invincible");
+      var teleportPending = document.getElementById("teleport-pending");
+      var teleportPendingText = document.getElementById("teleport-pending-text");
       var teleportWaypoint = document.getElementById("teleport-waypoint");
-      var waypointActive = false;
+      var status = document.getElementById("status");
+      var languageToggle = document.getElementById("language-toggle");
+      var languageToggleLabel = document.getElementById("language-toggle-label");
+      var lastRawMessage = "";
+      var currentView = "overview";
+      var language = readLanguage();
+
+      function readLanguage() {
+        try {
+          var saved = window.localStorage.getItem("asterui.demo.language");
+          return saved === "en" ? "en" : "zh";
+        } catch (error) {
+          return "zh";
+        }
+      }
+
+      function saveLanguage() {
+        try {
+          window.localStorage.setItem("asterui.demo.language", language);
+        } catch (error) {
+        }
+      }
+
+      function t(key) {
+        return translations[language][key] || translations.zh[key] || key;
+      }
+
+      function localizeLocation(name) {
+        if (language === "zh") {
+          return locationNames.zh[name] || name;
+        }
+        return name;
+      }
+
+      function localizeMessage(message) {
+        var value = String(message || "");
+        if (language === "en") {
+          return value;
+        }
+        if (pluginMessages.zh[value]) {
+          return pluginMessages.zh[value];
+        }
+        if (value.indexOf("Teleported to ") === 0) {
+          return "已传送到 " + localizeLocation(value.slice(14));
+        }
+        return value;
+      }
+
+      function applyLanguage() {
+        document.documentElement.lang = language === "zh" ? "zh-CN" : "en";
+        document.title = language === "zh"
+          ? "AsterUI Demo 控制台"
+          : "AsterUI Demo Console";
+        document.querySelectorAll("[data-i18n]").forEach(function (element) {
+          element.textContent = t(element.dataset.i18n);
+        });
+        document.querySelectorAll("[data-i18n-title]").forEach(function (element) {
+          element.title = t(element.dataset.i18nTitle);
+        });
+        document.querySelectorAll("[data-i18n-aria]").forEach(function (element) {
+          element.setAttribute("aria-label", t(element.dataset.i18nAria));
+        });
+        languageToggleLabel.textContent = t("languageButton");
+        languageToggle.setAttribute("aria-label", t("languageSwitch"));
+        languageToggle.title = t("languageSwitch");
+        refreshLocalizedMessages();
+        render();
+      }
+
+      function refreshLocalizedMessages() {
+        if (lastRawMessage) {
+          status.textContent = localizeMessage(lastRawMessage);
+        }
+        document.querySelectorAll(".activity[data-raw-message]").forEach(function (row) {
+          row.querySelector("span").textContent =
+            localizeMessage(row.dataset.rawMessage);
+        });
+      }
 
       function emit(name, payload) {
         if (window.asterui) {
@@ -560,79 +2072,307 @@
         }
       }
 
-      function setInvincible(value) {
-        invincible.setAttribute("aria-checked", value ? "true" : "false");
+      function command(action, extra) {
+        var payload = { action: action };
+        if (extra) {
+          Object.keys(extra).forEach(function (key) {
+            payload[key] = extra[key];
+          });
+        }
+        emit("demo:command", payload);
       }
 
-      function setWaypoint(active, x, y) {
-        waypointActive = Boolean(active);
-        waypointCard.classList.toggle("active", waypointActive);
-        waypointState.textContent = waypointActive ? "已检测到导航点" : "未设置导航点";
-        waypointCopy.textContent = waypointActive
-          ? "导航点来自 GTA V 游戏地图。可以直接传送到该坐标。"
-          : "关闭界面后，在 GTA V 自己的地图上用右键设置一个导航点，再按 F5 返回这里。";
-        waypointCoordinates.innerHTML = waypointActive
-          ? "X " + Number(x).toFixed(1) + "<br>Y " + Number(y).toFixed(1)
-          : "X --<br>Y --";
-        teleportWaypoint.disabled = !waypointActive;
+      function text(id, value) {
+        var element = document.getElementById(id);
+        if (element) {
+          element.textContent = value;
+        }
       }
 
-      document.querySelectorAll(".nav-item").forEach(function (item) {
-        item.addEventListener("click", function () {
-          document.querySelectorAll(".nav-item").forEach(function (button) {
-            button.classList.toggle("active", button === item);
-          });
-          document.querySelectorAll(".view").forEach(function (view) {
-            view.classList.toggle(
-              "active",
-              view.id === "view-" + item.dataset.view);
-          });
+      function clamp(value, min, max) {
+        return Math.max(min, Math.min(max, value));
+      }
+
+      function percent(value, maximum) {
+        return clamp((Number(value) || 0) / maximum * 100, 0, 100).toFixed(1) + "%";
+      }
+
+      function pad(value) {
+        return String(Math.max(0, Number(value) || 0)).padStart(2, "0");
+      }
+
+      function timeText(hour, minute) {
+        return pad(hour) + ":" + pad(minute);
+      }
+
+      function appendActivity(rawMessage) {
+        if (!rawMessage) {
+          return;
+        }
+        var row = document.createElement("div");
+        row.className = "activity";
+        row.dataset.rawMessage = rawMessage;
+        var copy = document.createElement("span");
+        var time = document.createElement("time");
+        var now = new Date();
+        copy.textContent = localizeMessage(rawMessage);
+        time.textContent = timeText(now.getHours(), now.getMinutes());
+        row.appendChild(copy);
+        row.appendChild(time);
+        activityList.insertBefore(row, activityList.firstChild);
+        while (activityList.children.length > 5) {
+          activityList.removeChild(activityList.lastChild);
+        }
+      }
+
+      function setView(name) {
+        currentView = name;
+        document.querySelectorAll(".nav-item").forEach(function (button) {
+          button.classList.toggle("active", button.dataset.view === name);
+        });
+        document.querySelectorAll(".view").forEach(function (view) {
+          view.classList.toggle("active", view.id === "view-" + name);
+        });
+        var content = document.querySelector("main");
+        if (content) {
+          content.scrollTop = 0;
+        }
+      }
+
+      function closeUi(event) {
+        if (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          if (event.repeat) {
+            return;
+          }
+        }
+        status.textContent = t("closing");
+        command("close");
+      }
+
+      function render() {
+        var health = Math.max(0, Number(state.health) || 0);
+        var armor = Math.max(0, Number(state.armor) || 0);
+        var wanted = Math.max(0, Number(state.wanted) || 0);
+        var speed = Math.max(0, Number(state.speedKph) || 0);
+        var vehicleHealth = Math.max(0, Number(state.vehicleHealth) || 0);
+        var clock = timeText(state.hour, state.minute);
+
+        text("clock", clock);
+        text("world-time", clock);
+        text("player-world-time", clock);
+        text("environment-time", clock);
+
+        text("health", health);
+        text("armor", armor);
+        text("wanted", wanted);
+        text("speed", speed.toFixed(0));
+        text("player-health", health);
+        text("player-armor", armor);
+        text("player-wanted", wanted);
+        text(
+          "wanted-note",
+          wanted
+            ? t("wantedStars").replace("{n}", wanted)
+            : t("noWanted"));
+        text(
+          "speed-note",
+          state.inVehicle ? t("vehicleSpeedNote") : t("playerSpeedNote"));
+
+        document.getElementById("health-bar").style.width = percent(health, 200);
+        document.getElementById("armor-bar").style.width = percent(armor, 100);
+        document.getElementById("speed-bar").style.width = percent(speed, state.inVehicle ? 220 : 30);
+
+        text("coord-x", Number(state.x || 0).toFixed(1));
+        text("coord-y", Number(state.y || 0).toFixed(1));
+        text("coord-z", Number(state.z || 0).toFixed(1));
+        text(
+          "player-coordinates",
+          "X " + Number(state.x || 0).toFixed(1) +
+          " · Y " + Number(state.y || 0).toFixed(1) +
+          " · Z " + Number(state.z || 0).toFixed(1));
+
+        invincibleSwitch.setAttribute(
+          "aria-checked",
+          state.invincible ? "true" : "false");
+
+        text("vehicle-speed", speed.toFixed(0));
+        text("vehicle-telemetry-speed", speed.toFixed(0) + " km/h");
+        text("vehicle-health", state.inVehicle ? vehicleHealth.toFixed(0) : "--");
+        text("vehicle-detected", state.inVehicle ? t("yes") : t("no"));
+        text(
+          "vehicle-state",
+          state.inVehicle
+            ? t("vehiclePresent")
+            : t("vehicleMissing"));
+
+        document.querySelectorAll("[data-requires-vehicle]").forEach(function (button) {
+          button.disabled = !state.inVehicle || state.teleportPending;
+        });
+
+        var waypoint = Boolean(state.waypointActive);
+        document.getElementById("waypoint-status").classList.toggle("active", waypoint);
+        text(
+          "waypoint-title",
+          waypoint ? t("waypointPresent") : t("waypointMissing"));
+        text(
+          "waypoint-copy",
+          waypoint
+            ? t("waypointPresentCopy")
+            : t("waypointMissingCopy"));
+        text(
+          "waypoint-coordinates",
+          waypoint
+            ? "X " + Number(state.waypointX).toFixed(1) +
+              " · Y " + Number(state.waypointY).toFixed(1)
+            : "X -- · Y --");
+        teleportWaypoint.disabled = !waypoint || state.teleportPending;
+        document.querySelectorAll("[data-requires-waypoint]").forEach(function (button) {
+          button.disabled = !waypoint || state.teleportPending;
+        });
+
+        document.querySelectorAll("[data-location]").forEach(function (button) {
+          button.disabled = state.teleportPending;
+        });
+
+        teleportPending.classList.toggle("active", state.teleportPending);
+        teleportPendingText.textContent = state.teleportPending
+          ? t("loadingGround").replace(
+              "{label}",
+              localizeLocation(state.teleportLabel || t("targetLocation")))
+          : "";
+      }
+
+      function applyState(payload) {
+        payload = payload || {};
+        Object.keys(state).forEach(function (key) {
+          if (Object.prototype.hasOwnProperty.call(payload, key)) {
+            state[key] = payload[key];
+          }
+        });
+        render();
+
+        var rawMessage = String(payload.message || "");
+        if (rawMessage) {
+          status.textContent = localizeMessage(rawMessage);
+          if (rawMessage !== lastRawMessage) {
+            appendActivity(rawMessage);
+          }
+          lastRawMessage = rawMessage;
+        }
+      }
+
+      document.querySelectorAll(".nav-item").forEach(function (button) {
+        button.addEventListener("click", function () {
+          setView(button.dataset.view);
         });
       });
 
-      invincible.addEventListener("click", function () {
-        var next = invincible.getAttribute("aria-checked") !== "true";
-        setInvincible(next);
-        emit("demo:command", { action: "set_invincible", value: next });
+      document.querySelectorAll("[data-command]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          var extra = {};
+          if (button.dataset.hour !== undefined) {
+            extra.hour = Number(button.dataset.hour);
+          }
+          command(button.dataset.command, extra);
+        });
       });
-      document.getElementById("heal").addEventListener("click", function () {
-        emit("demo:command", { action: "heal" });
+
+      invincibleSwitch.addEventListener("click", function () {
+        var next = invincibleSwitch.getAttribute("aria-checked") !== "true";
+        invincibleSwitch.setAttribute("aria-checked", next ? "true" : "false");
+        command("set_invincible", { value: next });
       });
-      document.getElementById("clear-wanted").addEventListener("click", function () {
-        emit("demo:command", { action: "clear_wanted" });
-      });
-      document.getElementById("repair").addEventListener("click", function () {
-        emit("demo:command", { action: "repair_vehicle" });
-      });
-      document.getElementById("refresh-waypoint").addEventListener("click", function () {
-        emit("demo:command", { action: "refresh_waypoint" });
-      });
+
       teleportWaypoint.addEventListener("click", function () {
-        if (waypointActive) {
-          emit("demo:command", { action: "teleport_waypoint" });
+        if (!teleportWaypoint.disabled) {
+          command("teleport_waypoint");
         }
       });
-      document.getElementById("close").addEventListener("click", function () {
-        emit("demo:command", { action: "close" });
-      });
-      window.addEventListener("keydown", function (event) {
-        if (event.key === "Escape") {
-          emit("demo:command", { action: "close" });
-        }
-      });
-      window.addEventListener("asterui:ready", function () {
-        window.asterui.on("demo:state", function (payload) {
-          payload = payload || {};
-          setInvincible(Boolean(payload.invincible));
-          health.textContent = payload.health === undefined ? "--" : String(payload.health);
-          armor.textContent = payload.armor === undefined ? "--" : String(payload.armor);
-          wanted.textContent = payload.wanted === undefined ? "--" : String(payload.wanted);
-          setWaypoint(payload.waypointActive, payload.waypointX, payload.waypointY);
-          status.textContent = String(
-            payload.message || (window.asterui.__mock ? "Browser preview" : "Ready"));
+
+      document.querySelectorAll("[data-location]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          command("teleport_location", { id: button.dataset.location });
         });
-        emit("demo:command", { action: "request_state" });
       });
+
+      document.querySelectorAll("[data-time]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          document.querySelectorAll("[data-time]").forEach(function (item) {
+            item.classList.toggle("selected", item === button);
+          });
+          command("set_time", { hour: Number(button.dataset.time) });
+        });
+      });
+
+      document.querySelectorAll("[data-weather]").forEach(function (button) {
+        button.addEventListener("click", function () {
+          document.querySelectorAll("[data-weather]").forEach(function (item) {
+            item.classList.toggle("selected", item === button);
+          });
+          command("set_weather", { weather: button.dataset.weather });
+        });
+      });
+
+      document.getElementById("header-close").addEventListener("click", closeUi);
+      document.getElementById("footer-close").addEventListener("click", closeUi);
+      languageToggle.addEventListener("click", function () {
+        language = language === "zh" ? "en" : "zh";
+        saveLanguage();
+        applyLanguage();
+      });
+
+      window.addEventListener("keydown", function (event) {
+        if (event.key === "F5" || event.key === "Escape") {
+          closeUi(event);
+          return;
+        }
+        if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+          var items = Array.from(document.querySelectorAll(".nav-item"));
+          var current = Math.max(0, items.findIndex(function (item) {
+            return item.dataset.view === currentView;
+          }));
+          var delta = event.key === "ArrowDown" ? 1 : -1;
+          var next = (current + delta + items.length) % items.length;
+          event.preventDefault();
+          setView(items[next].dataset.view);
+          items[next].focus();
+        }
+      });
+
+      window.addEventListener("asterui:ready", function () {
+        window.asterui.on("demo:state", applyState);
+        command("request_state");
+
+        if (window.asterui.__mock) {
+          window.setTimeout(function () {
+            window.asterui.__mock.dispatch("demo:state", {
+              invincible: true,
+              health: 176,
+              armor: 72,
+              wanted: 2,
+              inVehicle: true,
+              vehicleHealth: 910,
+              speedKph: 64,
+              x: -1024.7,
+              y: -2732.2,
+              z: 19.8,
+              hour: 18,
+              minute: 42,
+              waypointActive: true,
+              waypointX: 215.6,
+              waypointY: -810.9,
+              teleportPending: false,
+              message: "Browser preview state"
+            });
+          }, 80);
+        }
+      });
+
+      applyLanguage();
+      render();
+      setView("overview");
     })();
   </script>
 </body>
