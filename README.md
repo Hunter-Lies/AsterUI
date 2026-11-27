@@ -9,13 +9,11 @@
   <img src="assets/demo-console.png" alt="AsterUI Demo Console" width="100%">
 </p>
 
-面向 **Grand Theft Auto V PC 传承版（Legacy，非增强版）单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时，定位类似 RageUI：AsterUI 负责页面生命周期、CEF 渲染、输入和 JSON 通讯；插件负责何时显示页面以及如何处理游戏功能。
+面向 **GTA V PC 传承版单机剧情模式（Windows）** 的本地 HTML/CSS/JavaScript UI 运行时。AsterUI 负责页面、CEF 渲染、输入和 JSON 通讯；ASI/RPH 插件负责显示页面和执行游戏功能。
 
-本文所说的“插件”指加载 AsterUI 页面、接收页面事件并调用游戏功能的 ASI/RPH 插件。
+仅支持传承版单机模式，不支持 Enhanced、FiveM、RedM 或 GTA Online；仓库不包含游戏本体、ScriptHookV 或 Rockstar 文件。Demo 支持独占全屏、无边框全屏和窗口模式。
 
-不支持 GTA V 增强版（Enhanced）、FiveM、RedM 或 GTA Online。运行时需要由 ASI/RPH 插件加载；仓库不包含游戏本体、ScriptHookV 或 Rockstar 游戏文件。
-
-> 本项目文档只覆盖 UI 开发。插件、Native 和钩子开发不属于 AsterUI UI 教程范围。
+> 文档只覆盖 UI 开发，插件、Native 和钩子开发不在范围内。
 
 ## 快速开始
 

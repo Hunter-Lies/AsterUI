@@ -33,6 +33,10 @@ features:
 
 仅支持 **GTA V PC 传承版（Legacy）Story Mode**。不支持增强版（Enhanced）、FiveM、RedM 或 GTA Online。仓库不包含游戏本体或 ScriptHookV。
 
+::: tip 全屏运行
+Demo 支持 GTA V 独占全屏、无边框全屏和窗口模式，无需切换到窗口化运行。
+:::
+
 ```js
 window.addEventListener("asterui:ready", () => {
   window.asterui.on("myui:state", (state) => {

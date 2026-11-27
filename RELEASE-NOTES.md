@@ -14,6 +14,7 @@ Demo 与公开文档更新。
 - AsterUI ASI 与 CEF Host 运行时。
 - `AsterUI.Demo.asi` 与中英文切换的 F5 Demo 控制台。
 - 玩家操作、车辆控制、路点与地点传送、时间天气控制。
+- 支持 GTA V 独占全屏、无边框全屏和窗口模式。
 - 稳定 C ABI v1 与 C++ 包装头文件。
 - JavaScript 通讯声明、浏览器 mock 和公开示例。
 - 本地资源策略与按需启用的 loopback 热重载。

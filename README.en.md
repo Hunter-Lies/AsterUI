@@ -9,13 +9,11 @@
   <img src="assets/demo-console.png" alt="AsterUI Demo Console" width="100%">
 </p>
 
-Local HTML/CSS/JavaScript UI runtime for **Grand Theft Auto V Legacy Edition on Windows, Story Mode**. Responsibilities are similar to RageUI: AsterUI owns page lifecycle, CEF rendering, input, and JSON messaging; a plugin owns page launch policy and game actions.
+Local HTML/CSS/JavaScript UI runtime for **GTA V Legacy Edition, Story Mode on Windows**. AsterUI owns pages, CEF rendering, input, and the JSON bridge; ASI/RPH plugins handle page launch and game actions.
 
-In this documentation, "plugin" means the ASI/RPH plugin that hosts AsterUI pages, receives page events, and calls game functions.
+Only Legacy Story Mode is supported; Enhanced, FiveM, RedM, and GTA Online are not. No game, ScriptHookV, or Rockstar files are included. The demo supports exclusive fullscreen, borderless fullscreen, and windowed mode.
 
-AsterUI does not support the GTA V Enhanced Edition, FiveM, RedM, or GTA Online. The runtime requires an ASI/RPH plugin. The repository does not contain the game, ScriptHookV, or Rockstar game files.
-
-> This documentation covers UI authoring only. Plugin, native, and hook development are outside its scope.
+> Documentation covers UI authoring only. Plugin, native, and hook development are outside its scope.
 
 ## Quick start
 

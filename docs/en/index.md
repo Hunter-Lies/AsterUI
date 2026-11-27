@@ -33,6 +33,10 @@ features:
 
 AsterUI supports only **GTA V Legacy Edition on PC, Story Mode**. The Enhanced Edition, FiveM, RedM, and GTA Online are not supported. The repository does not include the game or ScriptHookV.
 
+::: tip Fullscreen ready
+The demo supports GTA V exclusive fullscreen, borderless fullscreen, and windowed mode; no windowed-mode switch is required.
+:::
+
 ```js
 window.addEventListener("asterui:ready", () => {
   window.asterui.on("myui:state", (state) => {

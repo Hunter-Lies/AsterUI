@@ -3,6 +3,7 @@
 ## 1.1.8 - Demo and documentation refresh
 
 - Reworked and documented the bilingual F5 demo console.
+- Documented fullscreen support without requiring windowed mode.
 - Added the in-game demo screenshot to the README.
 - Unified public terminology around "plugin" and removed obsolete architecture wording.
 - Aligned CEF rendering with physical game pixels for a 1:1 shared-frame output.
